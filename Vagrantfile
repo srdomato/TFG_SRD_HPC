@@ -80,6 +80,9 @@ Vagrant.configure("2") do |config|
       ansible.playbook = "Provisioning/playbook.yml"
   end
 
+  #Configuration for Cobbler By Script
+  config.vm.provision "shell", path: "Provisioning/cobbler-configuration.sh"
+
   #
   # View the documentation for the provider you are using for more
   # information on available options.
