@@ -1,0 +1,31 @@
+posibles cousas que necesite para Cobbler:
+#      - createrepo_c
+#      - xorriso
+#      - python3-mod_wsgi 
+#      - mod_ssl
+#      - rsync
+#      - syslinux
+#      - tftp-server
+#      - dnf-plugins-core
+#      - python3-librepo
+#      - dnf-plugins-core
+
+#- name: Install Multi Python Packages
+#  pip:
+#    name:
+#      - sphinx
+#      - coverage
+#      - cheetah3
+#      - netaddr
+#      - schema
+#      - pyyaml
+#    executable: pip3
+
+#!/bin/bash
+cd /home/vagrant/
+wget https://github.com/cobbler/cobbler/archive/refs/tags/v3.3.3.zip
+unzip v3.3.3.zip 
+rm v3.3.3.zip
+cd cobbler-3.3.3
+sudo make
+sudo make install

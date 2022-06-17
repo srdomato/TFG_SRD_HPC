@@ -1,10 +1,21 @@
-# Define tasks here
-- name: Install Nano
-  ansible.builtin.package:
-    name: nano
-    state: latest
 
-- name: Install the latest version of Apache
-  yum:
-    name: httpd
+- name: Installing List of Packages By Package Module
+  ansible.builtin.package:
+    name: 
+      - httpd
+      - git
+      - openssl
+    state: latest 
+
+- name: Enable DNF Cobbler Module
+  ansible.builtin.command: sudo dnf module enable cobbler:3.3 -y
+
+- name: Installing List of Packages By DNF 
+  dnf:
+    name: "{{ packages }}"
     state: latest
+  vars:
+    packages: 
+      - nano
+      - unzip
+      - cobbler
