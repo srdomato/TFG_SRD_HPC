@@ -19,3 +19,11 @@
       - nano
       - unzip
       - cobbler
+      - dnsmasq
+      - syslinux
+      - pykickstart
+      - xinetd
+      - tftp
+      - dhcp-server
+      - fence-agents
+      - debmirror
