@@ -1,0 +1,12 @@
+# Define handlers here
+- name: restart httpd service
+  service:
+    name: "httpd"
+    state: restarted
+    enabled: yes
+
+- name: restart cobblerd service
+  service:
+    name: "cobblerd"
+    state: restarted
+    enabled: yes
