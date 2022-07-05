@@ -74,12 +74,6 @@ Vagrant.configure("2") do |config|
   end
 
 
-  # Configuration of LOCALE
-  config.vm.provision "shell", inline: <<-SHELL
-    dnf install langpacks-en glibc-all-langpacks -y
-    localectl set-locale LANG=en_US.UTF-8
-  SHELL
-
   # Install ansible on the master node
   config.vm.provision "ansible_local" do |ansible|
       ansible.install = "true"

@@ -27,6 +27,8 @@
       - dhcp-server
       - fence-agents
       - debmirror
+      - langpacks-en
+      - glibc-all-langpacks
 
 - name: Disable SELinux
   ansible.posix.selinux:

@@ -1,4 +1,7 @@
 #!/bin/bash
+# Setting locale
+localectl set-locale LANG=en_US.UTF-8
+
 COBLLER_DIR=/etc/cobbler/
 if [ -d "$COBLLER_DIR" ]; then
 
