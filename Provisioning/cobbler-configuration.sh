@@ -202,13 +202,11 @@ if [ -d "$COBLLER_DIR" ]; then
 	systemctl restart xinetd
 	systemctl restart httpd
 	systemctl restart cobblerd
-	systemctl restart dhcpd
 
 	# Enabling Services 
 	systemctl enable cobblerd
 	systemctl enable xinetd
 	systemctl enable httpd
-	systemctl enable dhcpd
 
 	echo "------------- COBBLER UPDATES -------------"
 	# Cobbler Checks
