@@ -1,4 +1,11 @@
 # Define handlers here
+
+- name: restart xinetd service
+  service:
+    name: "xinetd"
+    state: restarted
+    enabled: yes
+
 - name: restart httpd service
   service:
     name: "httpd"
@@ -9,4 +16,22 @@
   service:
     name: "cobblerd"
     state: restarted
+    enabled: yes
+
+- name: start xinetd service
+  service:
+    name: "xinetd"
+    state: started
+    enabled: yes
+
+- name: start httpd service
+  service:
+    name: "httpd"
+    state: started
+    enabled: yes
+
+- name: start cobblerd service
+  service:
+    name: "cobblerd"
+    state: started
     enabled: yes

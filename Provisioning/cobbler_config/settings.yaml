@@ -187,7 +187,7 @@ default_ownership:
 # The simplest way to change the password is to run
 # openssl passwd -1
 # and put the output between the "" below.
-default_password_crypted: "$1$mF86/UHC$WvcIcX2t6crBz2onWxyac."
+default_password_crypted: "$1$C8wD.d/N$4df2/5cyim7XYDXeOAOob0"
 
 # the default template type to use in the absence of any
 # other detected template. If you do not specify the template
@@ -308,7 +308,7 @@ puppet_parameterized_classes: true
 # set to true to enable Cobbler's DHCP management features.
 # the choice of DHCP management engine is in /etc/cobbler/modules.conf
 # See the docs (https://cobbler.readthedocs.io/en/latest/user-guide.html#dhcp-management) for more info
-manage_dhcp: true
+manage_dhcp: True
 
 # set to true to enable DHCP IPv6 address configuration generation.
 # This currently only works with manager.isc DHCP module (isc dhcpd6 daemon)
@@ -319,7 +319,7 @@ manage_dhcp_v6: false
 # set to true to enable DHCP IPv4 address configuration generation.
 # This currently only works with manager.isc DHCP module
 # Other dhcp modules ignore this and above settings
-manage_dhcp_v4: true
+manage_dhcp_v4: True
 
 # if using Cobbler with manage_dhcp, put the IP address
 # of the Cobbler server here so that PXE booting guests can find it

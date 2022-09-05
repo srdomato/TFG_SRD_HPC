@@ -30,8 +30,95 @@
       - langpacks-en
       - glibc-all-langpacks
 
+- name: set as default locale
+  command: localectl set-locale LANG=en_US.UTF-8
+
+# ------------------------------ IPTables Config For Cobbler ------------------------------  
+
+- name: Allow TCP port 69
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: 69
+    ctstate: NEW
+    jump: ACCEPT
+
+- name: Allow UDP port 69
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: udp
+    destination_port: 69
+    ctstate: NEW
+    jump: ACCEPT
+
+
+- name: Allow TCP port 80
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: 80
+    ctstate: NEW
+    jump: ACCEPT
+
+- name: Allow TCP port 443
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: 443
+    ctstate: NEW
+    jump: ACCEPT
+
+# Cobbler Ports
+- name: Allow TCP port 25150
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: 25150
+    ctstate: NEW
+    jump: ACCEPT
+
+- name: Allow UDP port 25150
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: udp
+    destination_port: 25150
+    ctstate: NEW
+    jump: ACCEPT
+
+
+# ------------------------------ Cobbler Config ------------------------------    
+
 - name: Disable SELinux
   ansible.posix.selinux:
     state: disabled
+  notify:
+    - start xinetd service
+    - start httpd service
+    - start cobblerd service
 
+- name: Copy settings.yaml to /etc/cobbler/
+  ansible.builtin.copy:
+    src: cobbler_config/settings.yaml
+    dest: /etc/cobbler/settings.yaml
 
+- name: Copy dhcp.template to /etc/cobbler/
+  ansible.builtin.copy:
+    src: cobbler_config/dhcp.template
+    dest: /etc/cobbler/dhcp.template
+
+- name: Copy dnsmasq.template to /etc/cobbler/
+  ansible.builtin.copy:
+    src: cobbler_config/dnsmasq.template
+    dest: /etc/cobbler/dnsmasq.template
+  notify:
+    - restart xinetd service
+    - restart httpd service
+    - restart cobblerd service  
+
+# ------------------------------ Checking Cobbler ------------------------------
+
+- name: Cobbler Check
+  command: sudo cobbler check 
+
+- name: Cobbler Sync
+  command: sudo cobbler sync   
