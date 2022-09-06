@@ -96,6 +96,22 @@
     - start httpd service
     - start cobblerd service
 
+- name: Ensure xinetd is running
+  ansible.builtin.service:
+        name: xinetd
+        state: started
+
+- name: Ensure apache is running
+  ansible.builtin.service:
+        name: httpd
+        state: started
+
+- name: Ensure cobblerd is running
+  ansible.builtin.service:
+        name: cobblerd
+        state: started
+
+
 - name: Copy settings.yaml to /etc/cobbler/
   ansible.builtin.copy:
     src: cobbler_config/settings.yaml
