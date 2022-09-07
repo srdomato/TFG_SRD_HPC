@@ -5,7 +5,7 @@ MASTER_NODE_IP			= "192.168.56.27"
 MASTER_NODE_MEM			= 4096
 MASTER_NODE_CPUS		= 2
 MASTER_NODE_HOSTNAME	= "MasterNode"	
-MASTER_NODE_DISK_SIZE	= 15
+MASTER_NODE_DISK_SIZE	= "15GB"
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
@@ -71,11 +71,11 @@ Vagrant.configure("2") do |config|
       vb.memory = MASTER_NODE_MEM
       vb.cpus = MASTER_NODE_CPUS
 
-      filename = "./Disks/#{config.vm.hostname}-disk.vdi"
-      unless File.exist?(filename)
-          vb.customize ["createmedium", "disk", "--filename", filename, "--format", "vdi", "--size", MASTER_NODE_DISK_SIZE * 1024]
-      end
-      vb.customize ["storageattach", :id, "--storagectl", "SATA Controller", "--port", 1, "--device", 0, "--type", "hdd", "--medium", filename]
+      #filename = "./Disks/#{config.vm.hostname}-disk.vdi"
+      #unless File.exist?(filename)
+      #    vb.customize ["createmedium", "disk", "--filename", filename, "--format", "vdi", "--size", MASTER_NODE_DISK_SIZE * 1024]
+      #end
+      #vb.customize ["storageattach", :id, "--storagectl", "SATA Controller", "--port", 1, "--device", 0, "--type", "hdd", "--medium", filename]
         
   end
 

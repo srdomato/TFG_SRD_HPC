@@ -6,9 +6,11 @@ Programas:
 		- vagrant plugin install vagrant-hostmanager
 		- vagrant plugin install vagrant-vbguest
 		- vagrant plugin install vagrant-reload
+		- vagrant plugin install vagrant-disksize
 
 	- comandos:
 		- vagrant box update
 		- vagrant up
 		- vagrant destroy
 		- vagrant plugin repair
+		
