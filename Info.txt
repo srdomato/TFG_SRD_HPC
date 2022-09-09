@@ -14,3 +14,37 @@ Programas:
 		- vagrant destroy
 		- vagrant plugin repair
 		
+
+
+-------------------- COBBLER --------------------
+
+Rocky-9-x86_64
+
+Instruccións:
+
+	Montaxe, inserción e comprobación de novo SO.
+	
+		- sudo mount -t iso9660 -o loop,ro /path/to/isos/Fedora-17-x86_64-DVD.iso /mnt
+		- 
+		- sudo cobbler import --name=fedora17 --arch=x86_64 --path=/mnt
+		- 
+		- sudo cobbler distro list
+	 	- sudo cobbler profile list
+	 	- sudo cobbler distro report --name=Rocky-9-x86_64
+
+
+	Unha vez creamos o perfil e temos a distro, imos crear o sistema. 	
+
+		- sudo cobbler system add --name=test --profile=Rocky-9-x86_64
+
+		- sudo cobbler system list
+
+		- sudo cobbler system report --name=test
+
+
+
+		sudo cobbler system edit --name=test --ip-address=192.168.1.100 --netmask=255.255.255.0 --mac=00:11:22:AA:BB:CC --static=1
+ 		
+ 		sudo cobbler system edit --name=test  --dns-name=test.mydomaintest.com --hostname=test.mydomaintest.com --gateway=192.168.1.2
+
+ 		dnf --enablerepo=powertools install lynx

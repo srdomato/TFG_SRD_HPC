@@ -35,6 +35,7 @@
 
 # ------------------------------ IPTables Config For Cobbler ------------------------------  
 
+# DHCP
 - name: Allow TCP port 69
   ansible.builtin.iptables:
     chain: INPUT
@@ -52,6 +53,7 @@
     jump: ACCEPT
 
 
+# HTTP
 - name: Allow TCP port 80
   ansible.builtin.iptables:
     chain: INPUT
@@ -68,6 +70,7 @@
     ctstate: NEW
     jump: ACCEPT
 
+# COBBLER API
 # Cobbler Ports
 - name: Allow TCP port 25150
   ansible.builtin.iptables:
@@ -130,6 +133,21 @@
     - restart xinetd service
     - restart httpd service
     - restart cobblerd service  
+
+- name: Ensure xinetd is running
+  ansible.builtin.service:
+        name: xinetd
+        state: restarted
+
+- name: Ensure apache is running
+  ansible.builtin.service:
+        name: httpd
+        state: restarted
+
+- name: Ensure cobblerd is running
+  ansible.builtin.service:
+        name: cobblerd
+        state: restarted    
 
 # ------------------------------ Checking Cobbler ------------------------------
 

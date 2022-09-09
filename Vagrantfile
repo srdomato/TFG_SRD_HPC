@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-MASTER_NODE_IP			= "192.168.56.27"
+MASTER_NODE_IP			= "192.168.1.2"
 MASTER_NODE_MEM			= 4096
 MASTER_NODE_CPUS		= 2
 MASTER_NODE_HOSTNAME	= "MasterNode"	
