@@ -35,7 +35,7 @@
 
 # ------------------------------ IPTables Config For Cobbler ------------------------------  
 
-# DHCP
+# TFTP
 - name: Allow TCP port 69
   ansible.builtin.iptables:
     chain: INPUT

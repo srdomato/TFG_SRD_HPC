@@ -223,7 +223,7 @@ default_virt_type: xenpv
 # and if a profile/system is configured to boot via iPXE it will
 # chain load off pxelinux.0.
 # Default: false
-enable_ipxe: false
+enable_ipxe: True
 
 # controls whether Cobbler will add each new profile entry to the default
 # PXE boot menu.  This can be over-ridden on a per-profile
@@ -314,7 +314,7 @@ manage_dhcp: True
 # This currently only works with manager.isc DHCP module (isc dhcpd6 daemon)
 # See /etc/cobbler/modules.conf whether this isc module is chosen for dhcp
 # generation.
-manage_dhcp_v6: false
+manage_dhcp_v6: True
 
 # set to true to enable DHCP IPv4 address configuration generation.
 # This currently only works with manager.isc DHCP module
@@ -328,7 +328,7 @@ next_server_v4: 192.168.1.2
 
 # And the same if you set manage_dhcp_v6 to true.
 # Set the cobbler IPv6 address here so that PXE booting guests can find it
-next_server_v6: "::1"
+next_server_v6: ::ffff:c0a8:102
 
 # set to true to enable Cobbler's DNS management features.
 # the choice of DNS management engine is in /etc/cobbler/modules.conf

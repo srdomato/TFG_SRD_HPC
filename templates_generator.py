@@ -34,7 +34,10 @@ output = t.render(
 		DEFAULT_PASSWD 		= doc["variables"]["DEFAULT_PASSWD"],
 		MANAGE_DHCP			= doc["variables"]["MANAGE_DHCP"],
 		MANAGE_DHCP_V4		= doc["variables"]["MANAGE_DHCP_V4"],
+		MANAGE_DHCP_V6		= doc["variables"]["MANAGE_DHCP_V6"],
 		NEXT_SERVER_V4		= doc["variables"]["NEXT_SERVER_V4"],
+		NEXT_SERVER_V6		= doc["variables"]["NEXT_SERVER_V6"],
+		IPXE_VAR				= doc["variables"]["IPXE_VAR"],
 		SERVER 				= doc["variables"]["SERVER"])
 
 with open("./Provisioning/cobbler_config/settings.yaml", "w") as Settings:
