@@ -81,7 +81,8 @@ subnet {{ SUBNET }} netmask 255.255.255.0 {
           }
           else
           {
-              filename "grub/grub.0";
+              #filename "grub/grub.0";
+              filename "pxelinux.0";  
           }
      }
 }
