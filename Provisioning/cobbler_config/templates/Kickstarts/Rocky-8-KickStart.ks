@@ -1,77 +1,114 @@
-# Rocky Linux 8 Kickstart
-# Basic setup information
-url --url http://192.168.1.2/cobbler/ks_mirror/
+# Sample kickstart file for current EL, Fedora based distributions.
 
-network --bootproto=dhcp --device=link --activate --onboot=on
-rootpw --lock --iscrypted locked
-selinux --enforcing
+#platform=x86, AMD64, or Intel EM64T
+# System authorization information
+auth  --useshadow  --enablemd5
+# System bootloader configuration
+bootloader --location=mbr
+# Partition clearing information
+clearpart --all --initlabel
+# Use text mode install
+text
+# Firewall configuration
+firewall --enabled
+# Run the Setup Agent on first boot
+firstboot --disable
+# System keyboard
+keyboard us
+# System language
+lang en_US
+# Use network installation
+url --url=$tree
+# If any cobbler repo definitions were referenced in the kickstart profile, include them here.
+repo --name=source-1 --baseurl=http://192.168.1.2/cobbler/distro_mirror/Rocky-8-x86_64/BaseOS
+repo --name=source-2 --baseurl=http://192.168.1.2/cobbler/distro_mirror/Rocky-8-x86_64/Minimal
 
-# Language
-keyboard es
-lang en_US.UTF-8
-timezone Europe/Madrid
+# Network information
+network --bootproto=dhcp --device=eth0 --onboot=on  
 
-bootloader --location=mbr --driveorder=sda --append="crashkernel=auto rhgb quiet"
+# Reboot after installation
+reboot
 
-# Package setup
-%packages --ignoremissing --excludedocs --instLangs=en --nocore --excludeWeakdeps
+#Root password
+rootpw --iscrypted $1$C8wD.d/N$4df2/5cyim7XYDXeOAOob0
+# SELinux configuration
+selinux --disabled
+# Do not configure the X Window System
+skipx
+# System timezone
+timezone  America/New_York
+# Install OS instead of upgrade
+install
+# Clear the Master Boot Record
+zerombr
+# Allow anaconda to partition the system as needed
+autopart
 
-@base
-@console-internet
-@core
-@debugging
-@directory-client
-@hardware-monitoring
-@java-platform
-@large-systems
-@network-file-system-client
-@performance
-@perl-runtime
-@server-platform
-@server-policy
-@workstation-policy
-oddjob
-sgpio
-device-mapper-persistent-data
-pax
-samba-winbind
-certmonger
-pam_krb5
-krb5-workstation
-perl-DBD-SQLite
+%pre
+set -x -v
+exec 1>/tmp/ks-pre.log 2>&1
 
-bash
-coreutils-single
-glibc-minimal-langpack
-systemd
-microdnf
-rocky-release
+# Once root's homedir is there, copy over the log.
+while : ; do
+    sleep 10
+    if [ -d /mnt/sysimage/root ]; then
+        cp /tmp/ks-pre.log /mnt/sysimage/root/
+        logger "Copied %pre section log to system"
+        break
+    fi
+done &
 
--brotli
--dosfstools
--e2fsprogs
--firewalld
--fuse-libs
--gettext*
--gnupg2-smime
--grub\*
--hostname
--iptables
--iputils
--kernel
--kexec-tools
--less
--libss
--os-prober*
--pinentry
--qemu-guest-agent
--rootfiles
--shared-mime-info
--tar
--trousers
--vim-minimal
--xfsprogs
--xkeyboard-config
--yum
 
+curl "http://192.168.1.2/cblr/svc/op/trig/mode/pre/profile/Rocky-8-x86_64" -o /dev/null
+
+# Enable installation monitoring
+
+%end
+
+%packages
+%end
+
+%post --nochroot
+set -x -v
+exec 1>/mnt/sysimage/root/ks-post-nochroot.log 2>&1
+
+%end
+
+%post
+set -x -v
+exec 1>/root/ks-post.log 2>&1
+
+# Start yum configuration
+curl "http://192.168.1.2/cblr/svc/op/yum/profile/Rocky-8-x86_64" --output /etc/yum.repos.d/cobbler-config.repo
+
+# End yum configuration
+
+
+
+# Start post_install_network_config generated code
+# End post_install_network_config generated code
+
+# Start download cobbler managed config files (if applicable)
+# End download cobbler managed config files (if applicable)
+
+# Start koan environment setup
+echo "export COBBLER_SERVER=192.168.1.2" > /etc/profile.d/cobbler.sh
+echo "setenv COBBLER_SERVER 192.168.1.2" > /etc/profile.d/cobbler.csh
+# End koan environment setup
+
+# begin Red Hat management server registration
+# not configured to register to any Red Hat management server (ok)
+# end Red Hat management server registration
+
+# Begin cobbler registration
+# cobbler registration is disabled in /etc/cobbler/settings.yaml
+# End cobbler registration
+
+# Enable post-install boot notification
+
+# Start final steps
+
+curl "http://192.168.1.2/cblr/svc/op/autoinstall/profile/Rocky-8-x86_64" -o /root/cobbler.ks
+curl "http://192.168.1.2/cblr/svc/op/trig/mode/post/profile/Rocky-8-x86_64" -o /dev/null
+# End final steps
 %end

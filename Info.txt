@@ -84,3 +84,20 @@ sudo cobbler distro report --name=Fedora-Workstation-Live-x86_64-36-1.5
 		kernel http://dl.fedoraproject.org/pub/fedora/linux/releases/34/Server/x86_64/os//images/pxeboot/vmlinuz 
 		initrd=initrd.img 
 		ks=http://katello.fqdn/unattended/provision?token=537251a7-4aff-49c4-80c9-a62672caa112  BOOTIF=AA-BB-CC-DD-EE-FF-AA kssendmac ks.sendmac inst.ks.sendmac
+
+
+
+
+		sudo cobbler system edit --name=Rocky-9-Desktop --ipxe=True --ipv6=true
+
+
+		sudo cobbler distro edit --name=Rocky-8-x86_64 --ksmeta="tree=http://192.168.1.2/cblr/links/Rocky-8-x86_64"
+
+		sudo cobbler system edit --name=Rocky-8-Desktop --kickstart=
+
+
+
+		http://192.168.1.2/cobbler/distro_mirror/config/Rocky-8-x86_64-0.repo
+
+
+		inst.repo=http://192.168.0.20/cblr/links/Rocky-8-x86_64
