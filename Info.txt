@@ -101,3 +101,29 @@ sudo cobbler distro report --name=Fedora-Workstation-Live-x86_64-36-1.5
 
 
 		inst.repo=http://192.168.0.20/cblr/links/Rocky-8-x86_64
+
+		inst.repo=http://192.168.1.2/cobbler/distro_mirror/Rocky-8-x86_64/BaseOS
+
+	
+
+	cobbler distro edit --name=Rocky-8-Desktop --autoinstall_meta="tree=http://192.168.1.2/cblr/links/Rocky-8-x86_64"
+
+	cobbler distro edit --name=Rocky-8-x86_64 --autoinstall-meta="tree=http://192.168.1.2/cblr/links/Rocky-8-x86_64"
+
+
+-----------------------------------
+
+sudo localectl set-locale LANG=en_US.UTF-8
+
+Configure Foreman
+
+sudo vi /etc/hosts -> 192.168.1.2 foreman.server.com
+
+sudo systemctl enable --now chronyd
+
+sudo firewall-cmd --add-port={22,53,80,443,3000,8140,3306,5432,8443,5910-5930}/tcp --permanent
+sudo firewall-cmd --add-port=67-69/udp --permanent
+sudo firewall-cmd --reload
+
+
+foreman-rake permissions:reset username=admin password=vagrant

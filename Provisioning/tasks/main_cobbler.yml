@@ -1,0 +1,158 @@
+
+- name: Installing List of Packages By Package Module
+  ansible.builtin.package:
+    name: 
+      - httpd
+      - git
+      - openssl
+    state: latest 
+
+- name: Enable DNF Cobbler Module
+  ansible.builtin.command: sudo dnf module enable cobbler:3.3 -y
+
+- name: Installing List of Packages By DNF 
+  dnf:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages: 
+      - nano
+      - unzip
+      - cobbler
+      - dnsmasq
+      - syslinux
+      - pykickstart
+      - xinetd
+      - tftp
+      - dhcp-server
+      - fence-agents
+      - debmirror
+      - langpacks-en
+      - glibc-all-langpacks
+
+- name: set as default locale
+  command: localectl set-locale LANG=es_ES.UTF-8
+
+# ------------------------------ IPTables Config For Cobbler ------------------------------  
+
+# TFTP
+- name: Allow TCP port 69
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: 69
+    ctstate: NEW
+    jump: ACCEPT
+
+- name: Allow UDP port 69
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: udp
+    destination_port: 69
+    ctstate: NEW
+    jump: ACCEPT
+
+
+# HTTP
+- name: Allow TCP port 80
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: 80
+    ctstate: NEW
+    jump: ACCEPT
+
+- name: Allow TCP port 443
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: 443
+    ctstate: NEW
+    jump: ACCEPT
+
+# COBBLER API
+# Cobbler Ports
+- name: Allow TCP port 25150
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: 25150
+    ctstate: NEW
+    jump: ACCEPT
+
+- name: Allow UDP port 25150
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: udp
+    destination_port: 25150
+    ctstate: NEW
+    jump: ACCEPT
+
+
+# ------------------------------ Cobbler Config ------------------------------    
+
+- name: Disable SELinux
+  ansible.posix.selinux:
+    state: disabled
+  notify:
+    - start xinetd service
+    - start httpd service
+    - start cobblerd service
+
+- name: Ensure xinetd is running
+  ansible.builtin.service:
+        name: xinetd
+        state: started
+
+- name: Ensure apache is running
+  ansible.builtin.service:
+        name: httpd
+        state: started
+
+- name: Ensure cobblerd is running
+  ansible.builtin.service:
+        name: cobblerd
+        state: started
+
+
+- name: Copy settings.yaml to /etc/cobbler/
+  ansible.builtin.copy:
+    src: cobbler_config/settings.yaml
+    dest: /etc/cobbler/settings.yaml
+
+- name: Copy dhcp.template to /etc/cobbler/
+  ansible.builtin.copy:
+    src: cobbler_config/dhcp.template
+    dest: /etc/cobbler/dhcp.template
+
+- name: Copy dnsmasq.template to /etc/cobbler/
+  ansible.builtin.copy:
+    src: cobbler_config/dnsmasq.template
+    dest: /etc/cobbler/dnsmasq.template
+  notify:
+    - restart xinetd service
+    - restart httpd service
+    - restart cobblerd service  
+
+- name: Ensure xinetd is running
+  ansible.builtin.service:
+        name: xinetd
+        state: restarted
+
+- name: Ensure apache is running
+  ansible.builtin.service:
+        name: httpd
+        state: restarted
+
+- name: Ensure cobblerd is running
+  ansible.builtin.service:
+        name: cobblerd
+        state: restarted    
+
+# ------------------------------ Checking Cobbler ------------------------------
+
+- name: Cobbler Check
+  command: sudo cobbler check 
+
+- name: Cobbler Sync
+  command: sudo cobbler sync   

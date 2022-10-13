@@ -1,14 +1,17 @@
+- name: Download Puppet6
+  ansible.builtin.command: sudo dnf -y install https://yum.puppet.com/puppet6-release-el-8.noarch.rpm
 
-- name: Installing List of Packages By Package Module
-  ansible.builtin.package:
-    name: 
-      - httpd
-      - git
-      - openssl
-    state: latest 
+- name: Download TheForeman
+  ansible.builtin.command: sudo dnf -y install https://yum.theforeman.org/releases/2.5/el8/x86_64/foreman-release.rpm
 
-- name: Enable DNF Cobbler Module
-  ansible.builtin.command: sudo dnf module enable cobbler:3.3 -y
+- name: Reset Ruby
+  ansible.builtin.command: sudo dnf module reset ruby -y
+
+- name: Enable Ruby
+  ansible.builtin.command: sudo dnf -y module enable ruby:2.7
+
+- name: Update Rocky
+  ansible.builtin.command: sudo dnf update -y
 
 - name: Installing List of Packages By DNF 
   dnf:
@@ -16,143 +19,17 @@
     state: latest
   vars:
     packages: 
+      - foreman-installer
+      - glibc-locale-source
       - nano
-      - unzip
-      - cobbler
-      - dnsmasq
-      - syslinux
-      - pykickstart
-      - xinetd
-      - tftp
-      - dhcp-server
-      - fence-agents
-      - debmirror
-      - langpacks-en
-      - glibc-all-langpacks
+      - chrony
+      - ruby
 
-- name: set as default locale
-  command: localectl set-locale LANG=en_US.UTF-8
+- name: Set Timezone
+  ansible.builtin.command: sudo timedatectl set-timezone Europe/Madrid   
 
-# ------------------------------ IPTables Config For Cobbler ------------------------------  
+- name: Set Hostname
+  ansible.builtin.command: sudo hostnamectl set-hostname foreman.server.com  
 
-# TFTP
-- name: Allow TCP port 69
-  ansible.builtin.iptables:
-    chain: INPUT
-    protocol: tcp
-    destination_port: 69
-    ctstate: NEW
-    jump: ACCEPT
-
-- name: Allow UDP port 69
-  ansible.builtin.iptables:
-    chain: INPUT
-    protocol: udp
-    destination_port: 69
-    ctstate: NEW
-    jump: ACCEPT
-
-
-# HTTP
-- name: Allow TCP port 80
-  ansible.builtin.iptables:
-    chain: INPUT
-    protocol: tcp
-    destination_port: 80
-    ctstate: NEW
-    jump: ACCEPT
-
-- name: Allow TCP port 443
-  ansible.builtin.iptables:
-    chain: INPUT
-    protocol: tcp
-    destination_port: 443
-    ctstate: NEW
-    jump: ACCEPT
-
-# COBBLER API
-# Cobbler Ports
-- name: Allow TCP port 25150
-  ansible.builtin.iptables:
-    chain: INPUT
-    protocol: tcp
-    destination_port: 25150
-    ctstate: NEW
-    jump: ACCEPT
-
-- name: Allow UDP port 25150
-  ansible.builtin.iptables:
-    chain: INPUT
-    protocol: udp
-    destination_port: 25150
-    ctstate: NEW
-    jump: ACCEPT
-
-
-# ------------------------------ Cobbler Config ------------------------------    
-
-- name: Disable SELinux
-  ansible.posix.selinux:
-    state: disabled
-  notify:
-    - start xinetd service
-    - start httpd service
-    - start cobblerd service
-
-- name: Ensure xinetd is running
-  ansible.builtin.service:
-        name: xinetd
-        state: started
-
-- name: Ensure apache is running
-  ansible.builtin.service:
-        name: httpd
-        state: started
-
-- name: Ensure cobblerd is running
-  ansible.builtin.service:
-        name: cobblerd
-        state: started
-
-
-- name: Copy settings.yaml to /etc/cobbler/
-  ansible.builtin.copy:
-    src: cobbler_config/settings.yaml
-    dest: /etc/cobbler/settings.yaml
-
-- name: Copy dhcp.template to /etc/cobbler/
-  ansible.builtin.copy:
-    src: cobbler_config/dhcp.template
-    dest: /etc/cobbler/dhcp.template
-
-- name: Copy dnsmasq.template to /etc/cobbler/
-  ansible.builtin.copy:
-    src: cobbler_config/dnsmasq.template
-    dest: /etc/cobbler/dnsmasq.template
-  notify:
-    - restart xinetd service
-    - restart httpd service
-    - restart cobblerd service  
-
-- name: Ensure xinetd is running
-  ansible.builtin.service:
-        name: xinetd
-        state: restarted
-
-- name: Ensure apache is running
-  ansible.builtin.service:
-        name: httpd
-        state: restarted
-
-- name: Ensure cobblerd is running
-  ansible.builtin.service:
-        name: cobblerd
-        state: restarted    
-
-# ------------------------------ Checking Cobbler ------------------------------
-
-- name: Cobbler Check
-  command: sudo cobbler check 
-
-- name: Cobbler Sync
-  command: sudo cobbler sync   
+#- name: Installing Foreman
+#  ansible.builtin.command: sudo foreman-installer

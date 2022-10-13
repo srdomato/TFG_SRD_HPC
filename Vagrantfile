@@ -1,11 +1,11 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-MASTER_NODE_IP			= "{{ MASTER_NODE_IP }}"
-MASTER_NODE_MEM			= {{ MASTER_NODE_MEM }}
-MASTER_NODE_CPUS		= {{ MASTER_NODE_CPUS }}
-MASTER_NODE_HOSTNAME	= "{{ MASTER_NODE_HOSTNAME }}"	
-MASTER_NODE_DISK_SIZE	= "{{ MASTER_NODE_DISK_SIZE }}"
+MASTER_NODE_IP			= "192.168.1.2"
+MASTER_NODE_MEM			= 4096
+MASTER_NODE_CPUS		= 2
+MASTER_NODE_HOSTNAME	= "MasterNode"	
+MASTER_NODE_DISK_SIZE	= "15GB"
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
