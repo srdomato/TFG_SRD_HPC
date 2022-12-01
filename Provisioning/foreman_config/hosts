@@ -1,0 +1,15 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+127.0.0.1 rocky8.localdomain
+
+#127.0.1.1 foreman.server.com foreman
+
+192.168.0.17 foreman.server.com
+
+192.168.0.27 iso.server.com 
+
+## vagrant-hostmanager-start
+192.168.1.2     foreman.server.com
+
+## vagrant-hostmanager-end

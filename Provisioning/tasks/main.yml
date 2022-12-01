@@ -1,3 +1,8 @@
+- name: Copy new Hosts file
+  ansible.builtin.copy:
+    src: /vagrant/Provisioning/foreman_config/hosts
+    dest: /etc/hosts
+
 - name: Download Puppet6
   ansible.builtin.command: sudo dnf -y install https://yum.puppet.com/puppet6-release-el-8.noarch.rpm
 
@@ -24,6 +29,12 @@
       - nano
       - chrony
       - ruby
+      - httpd
+      - tftp-server
+      - tftp
+      - dhcp-server
+      - syslinux
+      - tree
 
 - name: Set Timezone
   ansible.builtin.command: sudo timedatectl set-timezone Europe/Madrid   
@@ -31,5 +42,76 @@
 - name: Set Hostname
   ansible.builtin.command: sudo hostnamectl set-hostname foreman.server.com  
 
-#- name: Installing Foreman
-#  ansible.builtin.command: sudo foreman-installer
+- name: Hard Link Between Rocky and RedHat EFI
+  ansible.builtin.command: sudo ln -s /boot/efi/EFI/rocky/ /boot/efi/EFI/redhat
+
+- name: Enabling Chrony 
+  ansible.builtin.command: sudo systemctl enable --now chronyd
+
+- name: Permit trafic ports TCP
+  ansible.posix.firewalld:
+    port: "{{ item }}/tcp"
+    permanent: yes
+    state: enabled 
+  loop:
+    - 22
+    - 53
+    - 80
+    - 443
+    - 3000
+    - 8140
+    - 3306
+    - 5432
+    - 8443
+    - 5910-5930
+          
+- name: Permit trafic ports UDP
+  ansible.posix.firewalld:
+    port: 67-69/udp
+    permanent: yes
+    state: enabled           
+
+- name: Roloading Firewalld
+  ansible.builtin.command: sudo firewall-cmd --reload
+
+- name: Create a directory /var/www/html/pub/
+  ansible.builtin.file:
+    path: /var/www/html/pub/
+    state: directory
+    mode: '0755'  
+
+- name: Create a directory /var/www/html/pub/RockyLinux
+  ansible.builtin.file:
+    path: /var/www/html/pub/RockyLinux
+    state: directory
+    mode: '0755'     
+
+- name: Download RockyLinux 8.7
+  ansible.builtin.get_url:
+    url: https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.7-x86_64-minimal.iso
+    dest: /home/vagrant/
+
+#- name: Mount RockyLinux 8.7 on /tmp
+#  ansible.posix.mount:
+#    path: /mnt/
+#    src: /home/vagrant/Rocky-8.7-x86_64-minimal.iso
+#    fstype: iso9660
+#    opts: loop,ro
+#    state: present
+
+- name:  Mount RockyLinux 8.7 on /tmp
+  ansible.builtin.command: sudo mount -t iso9660 -o loop,ro /home/vagrant/Rocky-8.7-x86_64-minimal.iso /mnt
+
+- name: Copying /mnt to RockyLinux folder
+  ansible.builtin.command: sudo cp -av /mnt/. /var/www/html/pub/RockyLinux
+
+- name: Unmount /mnt
+  ansible.posix.mount:
+    path: /mnt
+    state: unmounted
+
+- name: Installing Foreman
+  ansible.builtin.command: sudo foreman-installer --enable-foreman-proxy --enable-foreman-plugin-setup
+
+- name: Configuring Username and Password
+  ansible.builtin.command: sudo foreman-rake permissions:reset username=admin password=vagrant
