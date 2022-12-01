@@ -100,25 +100,25 @@ Vagrant.configure("2") do |config|
 
 
 
-  config.vm.define "node1" do |node1|
-    node1.vm.box = 'empty'
-    node1.vm.hostname = "node1"
-    node1.network "public_network", :bridge => "eth0", mac: 001122334455
+  # config.vm.define "node1" do |node1|
+  #   node1.vm.box = 'empty'
+  #   node1.vm.hostname = "node1"
+  #   node1.network "public_network", :bridge => "eth0", mac: 001122334455
     
-    node1.vm.provider "virtualbox" do |nd1|
-      nd1.cpus = 2
-      nd1.memory = 4096
-      nd1.boot 'network'
-      nd1.check_guest_additions = false
+  #   node1.vm.provider "virtualbox" do |nd1|
+  #     nd1.cpus = 2
+  #     nd1.memory = 4096
+  #     nd1.boot 'network'
+  #     nd1.check_guest_additions = false
 
-      # configure for PXE boot.
-      nd1.customize ['modifyvm', :id, '--boot1', 'net']
-      nd1.customize ['modifyvm', :id, '--boot2', 'disk']
-      nd1.customize ['modifyvm', :id, '--biospxedebug', 'on']
-      nd1.customize ['modifyvm', :id, '--cableconnected2', 'on']
-      nd1.customize ['modifyvm', :id, '--nicbootprio2', '1']
-      nd1.customize ['modifyvm', :id, "--nictype2", '82540EM'] # Must be an Intel card (as-of VB 5.1 we cannot Intel PXE boot from a virtio-net card).
-    end
+  #     # configure for PXE boot.
+  #     nd1.customize ['modifyvm', :id, '--boot1', 'net']
+  #     nd1.customize ['modifyvm', :id, '--boot2', 'disk']
+  #     nd1.customize ['modifyvm', :id, '--biospxedebug', 'on']
+  #     nd1.customize ['modifyvm', :id, '--cableconnected2', 'on']
+  #     nd1.customize ['modifyvm', :id, '--nicbootprio2', '1']
+  #     nd1.customize ['modifyvm', :id, "--nictype2", '82540EM'] # Must be an Intel card (as-of VB 5.1 we cannot Intel PXE boot from a virtio-net card).
+  #   end
 
-  end
+  # end
 end
