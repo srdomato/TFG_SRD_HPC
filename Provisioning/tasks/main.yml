@@ -100,13 +100,17 @@
 - name: Roloading Firewalld
   ansible.builtin.command: sudo firewall-cmd --reload
 
-- name: Download RockyLinux 8.7
-  ansible.builtin.get_url:
-    url: https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.7-x86_64-minimal.iso
-    dest: /home/vagrant/
+# Installation media: https://download.rockylinux.org/pub/rocky/$major/BaseOS/x86_64/os/
 
-- name:  Mount RockyLinux 8.7 on /tmp
-  ansible.builtin.command: sudo mount -t iso9660 -o loop,ro /home/vagrant/Rocky-8.7-x86_64-minimal.iso /mnt    
+# ---------------------- Download SO Option ---------------------------------  
+
+#- name: Download RockyLinux 8.7
+#  ansible.builtin.get_url:
+#    url: https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.7-x86_64-minimal.iso
+#    dest: /home/vagrant/
+#
+#- name:  Mount RockyLinux 8.7 on /tmp
+#  ansible.builtin.command: sudo mount -t iso9660 -o loop,ro /home/vagrant/Rocky-8.7-x86_64-minimal.iso /mnt    
 
 # ----------------------------- Config HTTP Server ----------------------------- 
 
@@ -136,19 +140,19 @@
 
 # ----------------------------- Config FTP Server ----------------------------- 
 
-- name: Create a directory /var/ftp/pub/pxe/RockyLinux
-  ansible.builtin.file:
-    path: /var/ftp/pub/pxe/RockyLinux
-    state: directory
-    mode: '0755'  
-
-- name: Copying /mnt to RockyLinux folder
-  ansible.builtin.command: sudo cp -prv /mnt/. /var/ftp/pub/pxe/RockyLinux/
-
-- name: Copying FTP configuration file
-  ansible.builtin.command: cp /vagrant/Provisioning/ftp_config/vsftpd.conf /etc/vsftpd/vsftpd.conf
-
-
+#- name: Create a directory /var/ftp/pub/pxe/RockyLinux
+#  ansible.builtin.file:
+#    path: /var/ftp/pub/pxe/RockyLinux
+#    state: directory
+#    mode: '0755'  
+#
+#- name: Copying /mnt to RockyLinux folder
+#  ansible.builtin.command: sudo cp -prv /mnt/. /var/ftp/pub/pxe/RockyLinux/
+#
+#- name: Copying FTP configuration file
+#  ansible.builtin.command: cp /vagrant/Provisioning/ftp_config/vsftpd.conf /etc/vsftpd/vsftpd.conf
+#
+#
 - name: Start service vsftpd, if not started
   ansible.builtin.service:
     name: vsftpd
@@ -164,10 +168,10 @@
 
 # -----------------------------------------------------------------------------  
 
-- name: Unmount /mnt
-  ansible.posix.mount:
-    path: /mnt
-    state: unmounted
+#- name: Unmount /mnt
+#  ansible.posix.mount:
+#    path: /mnt
+#    state: unmounted
 
 - name: Installing Foreman
   ansible.builtin.command: sudo foreman-installer --enable-foreman-proxy --enable-foreman-plugin-setup
