@@ -4,7 +4,7 @@
 MASTER_NODE_IP			 = "192.168.1.2"
 MASTER_NODE_MEM			  = 4096
 MASTER_NODE_CPUS		  = 2
-MASTER_NODE_HOSTNAME	= "foreman.server.com"	
+MASTER_NODE_HOSTNAME	= "montoxo.dec.udc.es"	
 MASTER_NODE_DISK_SIZE	= "15GB"
 ISO_SERVER_IP         = "192.168.0.27"
 INTERFACE_BRIDGE      = "eth0"

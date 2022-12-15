@@ -3,13 +3,10 @@
 
 127.0.0.1 rocky8.localdomain
 
-#127.0.1.1 foreman.server.com foreman
-
-192.168.0.17 foreman.server.com
-
-192.168.0.27 iso.server.com 
+127.0.1.1 montoxo
 
 ## vagrant-hostmanager-start
-192.168.1.2     foreman.server.com
+192.168.1.2     montoxo.dec.udc.es
 
 ## vagrant-hostmanager-end
+

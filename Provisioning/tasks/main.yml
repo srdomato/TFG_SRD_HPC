@@ -37,11 +37,20 @@
       - tree
       - vsftpd
 
-- name: Set Timezone
-  ansible.builtin.command: sudo timedatectl set-timezone Europe/Madrid   
 
-- name: Set Hostname
-  ansible.builtin.command: sudo hostnamectl set-hostname foreman.server.com  
+- name: Set timezone to Asia/Tokyo
+  community.general.timezone:
+    name: Europe/Madrid
+
+#- name: Set Timezone
+#  ansible.builtin.command: sudo timedatectl set-timezone Europe/Madrid   
+
+#- name: Set a hostname
+#  ansible.builtin.hostname:
+#    name: foreman.server.local
+
+#- name: Set Hostname
+#  ansible.builtin.command: sudo hostnamectl set-hostname foreman.server.local
 
 - name: Hard Link Between Rocky and RedHat EFI
   ansible.builtin.command: sudo ln -s /boot/efi/EFI/rocky/ /boot/efi/EFI/redhat
@@ -99,6 +108,8 @@
 
 - name: Roloading Firewalld
   ansible.builtin.command: sudo firewall-cmd --reload
+
+
 
 # Installation media: https://download.rockylinux.org/pub/rocky/$major/BaseOS/x86_64/os/
 
