@@ -1,0 +1,12 @@
+Log created: 2022-12-20T15:33:28.922215000Z
+Process ID:  47837 (0xbadd)
+Parent PID:  1 (0x1)
+Executable:  /usr/lib/virtualbox/VBoxHeadless
+Arg[0]: /usr/lib/virtualbox/VBoxHeadless
+Arg[1]: --comment
+Arg[2]: TFG_SRD_HPC_mnode_1671549398832_83855
+Arg[3]: --startvm
+Arg[4]: f6d75f71-ad6f-4931-a9a3-657277b85b2d
+Arg[5]: --vrde
+Arg[6]: config
+AddRef: illegal refcnt=3221225469 state=2

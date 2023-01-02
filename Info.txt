@@ -199,7 +199,11 @@ systemctl stop firewall.service
 
 hammer auth login basic
 
+nano ~/.hammer/cli.modules.d/foreman.yml
 
+admin, vagrant
+
+-------------------------------------------
 
 sudo yum install vsftpd -y
 sudo systemctl enable vsftpd
@@ -245,3 +249,23 @@ sudo dnf install syslinux-tftpboot -y
 
 sudo cp /tftpboot/* /var/lib/tftpboot
 
+
+-------------------------------------------------------------
+
+
+echo "192.168.0.17 montoxo.dec.udc.es" >> /etc/hosts
+
+foreman-installer --enable-foreman-plugin-discovery
+
+yum install rubygem-smart_proxy_discovery
+
+foreman-installer \
+  --enable-foreman-proxy-plugin-discovery \
+  --foreman-proxy-plugin-discovery-install-images=true
+
+
+yum install ruby-devel gcc make 
+
+yum install foreman-katello
+
+gem install hammer_cli_foreman_discovery

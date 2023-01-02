@@ -41,7 +41,7 @@ Vagrant.configure("2") do |config|
     # using a specific IP.
     #config.vm.network "private_network", type: "dhcp"
     mnode.vm.network "public_network", :bridge => INTERFACE_BRIDGE ,ip: BRIDGE_HOST_IP
-    mnode.vm.network "public_network", :bridge => INTERFACE_BRIDGE ,ip: ISO_SERVER_IP
+    #mnode.vm.network "public_network", :bridge => INTERFACE_BRIDGE ,ip: ISO_SERVER_IP
     mnode.vm.network "private_network", ip: MASTER_NODE_IP, virtualbox__intnet: true
 
     mnode.vm.synced_folder "./", "/vagrant"

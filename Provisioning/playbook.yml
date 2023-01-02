@@ -3,4 +3,5 @@
   become: yes
     
   tasks:
-    - import_tasks: tasks/main.yml
+#    - import_tasks: tasks/main.yml
+    - import_tasks: tasks/main_aux.yml
