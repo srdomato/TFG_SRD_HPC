@@ -6,14 +6,14 @@
 - name: localectl
   ansible.builtin.command: localectl set-locale LANG=en_US.UTF-8
 
-#- name: export LANG_ALL
-#  ansible.builtin.command: sudo export LC_ALL="en_US.UTF-8"
-
 - name: Download Puppet6
   ansible.builtin.command: sudo dnf -y install https://yum.puppet.com/puppet7-release-el-8.noarch.rpm
 
 - name: Download TheForeman
-  ansible.builtin.command: sudo dnf -y install https://yum.theforeman.org/releases/3.4/el8/x86_64/foreman-release.rpm
+  ansible.builtin.command: sudo dnf -y install https://yum.theforeman.org/releases/3.5/el8/x86_64/foreman-release.rpm
+
+- name: Download katello
+  ansible.builtin.command: dnf -y install https://yum.theforeman.org/katello/4.7/katello/el8/x86_64/katello-repos-latest.rpm
 
 - name: Reset Ruby
   ansible.builtin.command: sudo dnf module reset ruby -y
@@ -32,6 +32,12 @@
 
 - name: Enable foreman module
   ansible.builtin.command: sudo dnf -y module enable foreman:el8
+
+- name: Powertools
+  ansible.builtin.command: dnf config-manager --set-enabled powertools
+
+- name: Enable katello module
+  ansible.builtin.command: dnf -y module enable katello:el8 pulpcore:el8
 
 - name: Update Rocky
   ansible.builtin.command: sudo dnf update -y
@@ -55,6 +61,8 @@
       - tree
       - vsftpd
       - postgresql-server
+      - foreman-installer-katello
+      - ruby-devel
 
 
 - name: Set timezone to Asia/Tokyo
@@ -202,11 +210,18 @@
 #    path: /mnt
 #    state: unmounted
 
+#- name: export LANG_ALL
+#  ansible.builtin.command: export LC_ALL="en_US.UTF-8"
+
 - name: Setup postgresql db
   ansible.builtin.command: sudo postgresql-setup --initdb 
 
 #- name: Installing Foreman
-#  ansible.builtin.command: sudo foreman-installer --enable-foreman-proxy --enable-foreman-compute-libvirt --enable-foreman-plugin-setup --enable-foreman-proxy-plugin-discovery --enable-foreman-plugin-discovery --foreman-proxy-plugin-discovery-install-images=true
+#  ansible.builtin.command: sudo foreman-installer --scenario katello --tuning development --enable-foreman-proxy --enable-foreman-compute-libvirt --enable-foreman-plugin-setup --enable-foreman-proxy-plugin-discovery --enable-foreman-plugin-discovery --foreman-proxy-plugin-discovery-install-images=true
 
 #- name: Configuring Username and Password
 #  ansible.builtin.command: sudo foreman-rake permissions:reset username=admin password=vagrant
+
+
+#- name: Install hammer_cli_foreman_discovery
+#  ansible.builtin.command: gem install hammer_cli_foreman_discovery
