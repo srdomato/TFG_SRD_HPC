@@ -269,3 +269,11 @@ yum install ruby-devel gcc make
 yum install foreman-katello
 
 gem install hammer_cli_foreman_discovery
+
+
+
+------------------------------------------------------------
+
+ANSIBLE + FOREMAN
+
+	-instalar plugin numero 16

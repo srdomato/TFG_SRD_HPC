@@ -1,3 +1,5 @@
+#Hosts creados con foreman 3.4 e a installation media de Rocky -> RAM min 4096 MB
+
 - name: Copy new Hosts file
   ansible.builtin.copy:
     src: /vagrant/Provisioning/foreman_config/hosts
@@ -6,14 +8,14 @@
 - name: localectl
   ansible.builtin.command: localectl set-locale LANG=en_US.UTF-8
 
-- name: Download Puppet6
+- name: Download Puppet 7
   ansible.builtin.command: sudo dnf -y install https://yum.puppet.com/puppet7-release-el-8.noarch.rpm
 
 - name: Download TheForeman
-  ansible.builtin.command: sudo dnf -y install https://yum.theforeman.org/releases/3.5/el8/x86_64/foreman-release.rpm
+  ansible.builtin.command: sudo dnf -y install https://yum.theforeman.org/releases/3.4/el8/x86_64/foreman-release.rpm
 
-- name: Download katello
-  ansible.builtin.command: dnf -y install https://yum.theforeman.org/katello/4.7/katello/el8/x86_64/katello-repos-latest.rpm
+#- name: Download katello
+#  ansible.builtin.command: dnf -y install https://yum.theforeman.org/katello/4.7/katello/el8/x86_64/katello-repos-latest.rpm
 
 - name: Reset Ruby
   ansible.builtin.command: sudo dnf module reset ruby -y
@@ -21,14 +23,14 @@
 - name: Enable Ruby
   ansible.builtin.command: sudo dnf -y module enable ruby:2.7
 
-- name: Enable postgresql
-  ansible.builtin.command: sudo dnf -y module reset  postgresql:12
+#- name: Enable postgresql
+#  ansible.builtin.command: sudo dnf -y module reset  postgresql:12
 
-- name: Enable postgresql:12
-  ansible.builtin.command: sudo dnf -y module enable postgresql:12
+#- name: Enable postgresql:12
+#  ansible.builtin.command: sudo dnf -y module enable postgresql:12
 
-- name: Module Install postgresql:12
-  ansible.builtin.command: dnf -y module install postgresql:12
+#- name: Module Install postgresql:12
+#  ansible.builtin.command: dnf -y module install postgresql:12
 
 - name: Enable foreman module
   ansible.builtin.command: sudo dnf -y module enable foreman:el8
@@ -36,10 +38,10 @@
 - name: Powertools
   ansible.builtin.command: dnf config-manager --set-enabled powertools
 
-- name: Enable katello module
-  ansible.builtin.command: dnf -y module enable katello:el8 pulpcore:el8
+#- name: Enable katello module
+#  ansible.builtin.command: dnf -y module enable katello:el8 pulpcore:el8
 
-- name: Update Rocky
+- name: Update Rocky 
   ansible.builtin.command: sudo dnf update -y
 
 - name: Installing List of Packages By DNF 
@@ -60,9 +62,10 @@
       - syslinux
       - tree
       - vsftpd
-      - postgresql-server
-      - foreman-installer-katello
+#      - postgresql-server
+#      - foreman-installer-katello
       - ruby-devel
+      - rubygem-smart_proxy_discovery
 
 
 - name: Set timezone to Asia/Tokyo
@@ -213,15 +216,18 @@
 #- name: export LANG_ALL
 #  ansible.builtin.command: export LC_ALL="en_US.UTF-8"
 
-- name: Setup postgresql db
-  ansible.builtin.command: sudo postgresql-setup --initdb 
+#- name: Setup postgresql db
+#  ansible.builtin.command: sudo postgresql-setup --initdb 
 
-#- name: Installing Foreman
+#- name: Installing Foreman + Katello
 #  ansible.builtin.command: sudo foreman-installer --scenario katello --tuning development --enable-foreman-proxy --enable-foreman-compute-libvirt --enable-foreman-plugin-setup --enable-foreman-proxy-plugin-discovery --enable-foreman-plugin-discovery --foreman-proxy-plugin-discovery-install-images=true
 
-#- name: Configuring Username and Password
-#  ansible.builtin.command: sudo foreman-rake permissions:reset username=admin password=vagrant
+- name: Installing Foreman
+  ansible.builtin.command: sudo foreman-installer --enable-foreman-proxy --enable-foreman-plugin-remote-execution --enable-foreman-proxy-plugin-remote-execution-script --enable-foreman-plugin-ansible --enable-foreman-proxy-plugin-ansible --enable-foreman-plugin-setup
 
+
+- name: Configuring Username and Password
+  ansible.builtin.command: sudo foreman-rake permissions:reset username=admin password=vagrant
 
 #- name: Install hammer_cli_foreman_discovery
 #  ansible.builtin.command: gem install hammer_cli_foreman_discovery
