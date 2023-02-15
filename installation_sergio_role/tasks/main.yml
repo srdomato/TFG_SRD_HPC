@@ -1,2 +1,24 @@
 ---
 # tasks file for installation_sergio_role
+- name: Update SO 
+  ansible.builtin.command: sudo dnf update -y
+
+- name: Installing List of Packages By DNF 
+  dnf:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages: 
+      - httpd
+      - tree
+      - nano
+
+- name: Set timezone to Europe/Madrid
+  community.general.timezone:
+    name: Europe/Madrid
+
+
+- name: Copy a file
+  ansible.builtin.copy:
+    src: files/hola.txt
+    dest: /home/
