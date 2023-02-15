@@ -10,3 +10,6 @@
 
 ## vagrant-hostmanager-end
 
+192.168.0.101	node1.dec.udc.es
+
+192.168.0.102	node2.dec.udc.es

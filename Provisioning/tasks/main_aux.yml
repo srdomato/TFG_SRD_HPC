@@ -66,9 +66,10 @@
 #      - foreman-installer-katello
       - ruby-devel
       - rubygem-smart_proxy_discovery
+      - rubygem-foreman_maintain
 
 
-- name: Set timezone to Asia/Tokyo
+- name: Set timezone to Europe/Madrid
   community.general.timezone:
     name: Europe/Madrid
 
@@ -223,7 +224,7 @@
 #  ansible.builtin.command: sudo foreman-installer --scenario katello --tuning development --enable-foreman-proxy --enable-foreman-compute-libvirt --enable-foreman-plugin-setup --enable-foreman-proxy-plugin-discovery --enable-foreman-plugin-discovery --foreman-proxy-plugin-discovery-install-images=true
 
 - name: Installing Foreman
-  ansible.builtin.command: sudo foreman-installer --enable-foreman-proxy --enable-foreman-plugin-remote-execution --enable-foreman-proxy-plugin-remote-execution-script --enable-foreman-plugin-ansible --enable-foreman-proxy-plugin-ansible --enable-foreman-plugin-setup
+  ansible.builtin.command: sudo foreman-installer --enable-foreman-proxy --enable-foreman-plugin-remote-execution --enable-foreman-proxy-plugin-remote-execution-script --enable-foreman-plugin-ansible --enable-foreman-proxy-plugin-ansible --enable-foreman-plugin-setup --enable-foreman-plugin-tasks --enable-foreman-proxy-plugin-dynflow
 
 
 - name: Configuring Username and Password
@@ -231,3 +232,7 @@
 
 #- name: Install hammer_cli_foreman_discovery
 #  ansible.builtin.command: gem install hammer_cli_foreman_discovery
+
+
+# ssh mediante terminal
+# sudo -u foreman-proxy ssh -i /var/lib/foreman-proxy/ssh/id_rsa_foreman_proxy root@192.168.0.101
