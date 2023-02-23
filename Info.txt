@@ -277,3 +277,10 @@ gem install hammer_cli_foreman_discovery
 ANSIBLE + FOREMAN
 
 	-instalar plugin numero 16
+
+
+---------------------------------------------------------------
+
+ansible role
+
+ansible-galaxy init example

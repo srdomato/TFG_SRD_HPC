@@ -1,0 +1,37 @@
+---
+# tasks file for users_config
+
+- name: Update SO 
+  ansible.builtin.command: sudo dnf update -y
+
+- name: Create Group
+  ansible.builtin.group:
+    name: "{{ group_name }}"
+    state: present
+
+- name: Create Users
+  user:
+   name: "{{ item }}"
+   groups: "{{ group_name }}"
+   append: true
+   shell: /bin/bash
+   create_home: true
+   password: "{{ "{{ item }}" | password_hash('sha512', 'mysecretsalt') }}"
+   update_password: on_create
+  loop: "{{ users_name_list }}" 
+  register: accounts
+  notify: force change password
+
+- name: Installing List of Packages By DNF 
+  dnf:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages: 
+      - httpd
+      - tree
+      - nano
+
+- name: Set timezone to Europe/Madrid
+  community.general.timezone:
+    name: Europe/Madrid
