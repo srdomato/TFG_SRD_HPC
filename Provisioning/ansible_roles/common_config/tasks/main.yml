@@ -16,8 +16,11 @@
    append: true
    shell: /bin/bash
    create_home: true
-   password: "{{ "{{ item }}" | password_hash('sha512', 'mysecretsalt') }}"
+   password: "{{ 'abc123' | password_hash('sha512', 'mysecretsalt') }}"
    update_password: on_create
+   generate_ssh_key: yes
+   ssh_key_bits: 2048
+   ssh_key_file: .ssh/id_rsa
   loop: "{{ users_name_list }}" 
   register: accounts
   notify: force change password
@@ -31,6 +34,7 @@
       - httpd
       - tree
       - nano
+      - nfs-utils
 
 - name: Set timezone to Europe/Madrid
   community.general.timezone:

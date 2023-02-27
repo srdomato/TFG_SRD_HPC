@@ -1,0 +1,8 @@
+---
+# tasks file for nfs-client
+- name: Mount NFS share
+  mount:
+    path: "{{ nfs_dir }}"
+    src: "{{ nfs_server}}:{{ nfs_dir }}"
+    fstype: nfs
+    state: mounted    

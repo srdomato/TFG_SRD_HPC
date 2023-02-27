@@ -1,0 +1,11 @@
+---
+# vars file for nfs-server
+
+# Hostname of the NFS server
+nfs_server: nfs-server.dec.udc.es
+
+# Cluster network
+cluster_network: 192.168.0.0/24
+
+# NFS exported directory
+nfs_dir: /home

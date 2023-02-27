@@ -1,0 +1,13 @@
+---
+# tasks file for nfs-server
+- name: Ensure NFS server is started and enabled at boot
+  service:
+    name: nfs-server
+    state: reloaded
+    enabled: yes
+      
+- name: Copy exports template to /etc/exports
+  template:
+    src: templates/exports.j2
+    dest: /etc/exports
+  notify: Restart NFS server

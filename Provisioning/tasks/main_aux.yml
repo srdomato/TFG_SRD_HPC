@@ -1,4 +1,4 @@
-#Hosts creados con foreman 3.4 e a installation media de Rocky -> RAM min 4096 MB
+#Hosts creados con foreman 3.4 e a installation media de Rocky -> RAM min 4096 MB + 16GB de disco
 
 - name: Copy new Hosts file
   ansible.builtin.copy:
@@ -236,3 +236,13 @@
 
 # ssh mediante terminal
 # sudo -u foreman-proxy ssh -i /var/lib/foreman-proxy/ssh/id_rsa_foreman_proxy root@192.168.0.101
+
+- name: Installing Foreman (ansible-galaxy)
+  ansible.builtin.command: ansible-galaxy collection install theforeman.foreman
+
+- name: Copying Ansible Roles to /etc/ansible/roles
+  ansible.builtin.copy:
+    src: /vagrant/Provisioning/ansible_roles/
+    dest: /etc/ansible/roles/
+    remote_src: yes
+    directory_mode: yes
