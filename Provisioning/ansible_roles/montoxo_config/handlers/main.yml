@@ -1,0 +1,6 @@
+---
+# handlers file for montoxo_config
+- name: force change password                                                                                     
+  command: "chage -d 0 {{ item.name }}"                                                                           
+  when: item.changed                                                                                              
+  loop: "{{ accounts.results }}"

@@ -1,4 +1,7 @@
 ---
 # vars file for users_config
 group_name: Usuarios
-vagrant_user: vagrant
+users_name_list:
+  - user1
+  - user2
+  - user3

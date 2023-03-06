@@ -4,26 +4,23 @@
 - name: Update SO 
   ansible.builtin.command: sudo dnf update -y
 
-- name: Create Group
+- name: Disable SELinux
+  ansible.posix.selinux:
+    state: disabled
+
+- name: Create Usuarios Group
   ansible.builtin.group:
     name: "{{ group_name }}"
     state: present
 
-- name: Create Users
+- name: Create Vagrant User
   user:
-   name: "{{ item }}"
-   groups: "{{ group_name }}"
+   name: "{{ vagrant_user }}"
+   group: "{{ group_name }}"
    append: true
    shell: /bin/bash
    create_home: true
-   password: "{{ 'abc123' | password_hash('sha512', 'mysecretsalt') }}"
-   update_password: on_create
-   generate_ssh_key: yes
-   ssh_key_bits: 2048
-   ssh_key_file: .ssh/id_rsa
-  loop: "{{ users_name_list }}" 
-  register: accounts
-  notify: force change password
+  register: accounts    
 
 - name: Installing List of Packages By DNF 
   dnf:
@@ -35,7 +32,12 @@
       - tree
       - nano
       - nfs-utils
+      - cifs-utils
 
 - name: Set timezone to Europe/Madrid
   community.general.timezone:
     name: Europe/Madrid
+
+
+- name: Add montoxo.dec.udc.es pubkey
+  ansible.builtin.command: sshpass -p vagrant123 ssh root@192.168.0.17 cat /root/.ssh/id_rsa.pub > /root/.ssh/authorized_keys

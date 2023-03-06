@@ -1,0 +1,16 @@
+---
+# tasks file for nodes_config
+- name: Create Users
+  user:
+   name: "{{ item }}"
+   group: "{{ group_name }}"
+   append: true
+   shell: /bin/bash
+   create_home: true
+   password: "{{ 'abc123' | password_hash('sha512', 'mysecretsalt') }}"
+   update_password: on_create
+   generate_ssh_key: yes
+   ssh_key_bits: 2048
+   ssh_key_file: .ssh/id_rsa
+  loop: "{{ users_name_list }}" 
+  register: accounts

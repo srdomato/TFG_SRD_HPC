@@ -1,0 +1,17 @@
+---
+- name: Copy /etc/shadow to nodes
+  hosts: montoxo.dec.udc.es
+  become: yes
+
+  vars:
+    nodes: 
+      - 192.168.0.150
+    file: '/etc/shadow'
+
+  tasks:
+    - name: Copying /etc/shadow
+      copy:
+        src: /etc/shadow
+        dest: "root@{{ nodes }}:{{ file }}"
+        remote_src: yes
+      loop: "{{ nodes }}"

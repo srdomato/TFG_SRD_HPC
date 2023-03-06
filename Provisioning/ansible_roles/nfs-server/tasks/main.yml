@@ -1,5 +1,6 @@
 ---
 # tasks file for nfs-server
+
 - name: Ensure NFS server is started and enabled at boot
   service:
     name: nfs-server
@@ -11,3 +12,32 @@
     src: templates/exports.j2
     dest: /etc/exports
   notify: Restart NFS server
+
+
+- name: permit traffic in default zone for nfs service
+  ansible.posix.firewalld:
+    service: nfs
+    permanent: yes
+    state: enabled
+
+- name: permit traffic in default zone for mountd service
+  ansible.posix.firewalld:
+    service: mountd
+    permanent: yes
+    state: enabled
+
+- name: permit traffic in default zone for rpc-bind service
+  ansible.posix.firewalld:
+    service: rpc-bind
+    permanent: yes
+    state: enabled
+
+- name: Roloading Firewalld
+  ansible.builtin.command: sudo firewall-cmd --reload
+
+
+- name: Fetch Montoxo /home/vagrant
+  ansible.builtin.fetch:
+    src: /tmp/uniquefile
+    dest: /tmp/special/
+    flat: yes

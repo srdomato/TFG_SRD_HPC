@@ -1,0 +1,26 @@
+---
+# tasks file for montoxo_config
+- name: Create Users
+  user:
+   name: "{{ item }}"
+   group: "{{ group_name }}"
+   append: true
+   shell: /bin/bash
+   create_home: true
+   password: "{{ 'abc123' | password_hash('sha512', 'mysecretsalt') }}"
+   update_password: on_create
+   generate_ssh_key: yes
+   ssh_key_bits: 2048
+   ssh_key_file: .ssh/id_rsa
+  loop: "{{ users_name_list }}" 
+  register: accounts
+  notify: force change password
+
+#- name: Copying Sergio PubKey
+#  ansible.builtin.command: sh /vagrant/pub_script/cp_pub_script.sh
+
+- name: Generate an OpenSSH keypair with the default values (4096 bits, rsa)
+  openssh_keypair:
+    path: /home/vagrant/.ssh/id_rsa
+    owner: "{{ vagrant_user }}"
+    group: "{{ group_name }}"

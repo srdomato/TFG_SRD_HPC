@@ -1,0 +1,8 @@
+---
+# vars file for montoxo_config
+group_name: Usuarios
+users_name_list:
+  - user1
+  - user2
+  - user3
+vagrant_user: vagrant

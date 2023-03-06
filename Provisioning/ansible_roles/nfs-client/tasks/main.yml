@@ -5,4 +5,4 @@
     path: "{{ nfs_dir }}"
     src: "{{ nfs_server}}:{{ nfs_dir }}"
     fstype: nfs
-    state: mounted    
+    state: mounted

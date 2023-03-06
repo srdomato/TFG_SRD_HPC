@@ -227,7 +227,7 @@
   ansible.builtin.command: sudo foreman-installer --enable-foreman-proxy --enable-foreman-plugin-remote-execution --enable-foreman-proxy-plugin-remote-execution-script --enable-foreman-plugin-ansible --enable-foreman-proxy-plugin-ansible --enable-foreman-plugin-setup --enable-foreman-plugin-tasks --enable-foreman-proxy-plugin-dynflow
 
 
-- name: Configuring Username and Password
+- name: Configuring Username and Password Foreman
   ansible.builtin.command: sudo foreman-rake permissions:reset username=admin password=vagrant
 
 #- name: Install hammer_cli_foreman_discovery
@@ -246,3 +246,49 @@
     dest: /etc/ansible/roles/
     remote_src: yes
     directory_mode: yes
+
+- name: Copy sshd_config
+  ansible.builtin.copy:
+    src: /vagrant/Provisioning/foreman_config/sshd_config
+    dest: /etc/ssh/
+
+- name: Create /root/.ssh/ if it does not exist
+  ansible.builtin.file:
+    path: /root/.ssh/
+    state: directory
+    mode: '0755'
+
+- name: Create /root/.ssh/authorized_keys
+  ansible.builtin.file:
+    path: /root/.ssh/authorized_keys
+    state: touch
+
+- name: Add Foreman-proxy pubkey to authorized_keys
+  shell: 
+    cmd: 'cat /var/lib/foreman-proxy/ssh/id_rsa_foreman_proxy.pub >> /root/.ssh/authorized_keys'
+
+
+- name: Restart sshd service
+  ansible.builtin.service:
+    name: sshd
+    state: restarted
+    enabled: yes
+
+- name: change password
+      ansible.builtin.user:
+        name: root
+        state: present
+        password: "{{ vagrant123 | password_hash('sha512') }}"    
+
+
+#- name: Add montoxo to ansible hosts
+#  shell: 
+#    cmd: 'echo "montoxo.dec.udc.es" >> /etc/ansible/hosts'
+
+- name: Change file ownership, group and permissions
+  ansible.builtin.file:
+    path: /home/vagrant
+    owner: vagrant
+    group: Usuarios
+    recurse: yes
+   
