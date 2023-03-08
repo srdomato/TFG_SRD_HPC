@@ -36,8 +36,11 @@
   ansible.builtin.command: sudo firewall-cmd --reload
 
 
-- name: Fetch Montoxo /home/vagrant
-  ansible.builtin.fetch:
-    src: /tmp/uniquefile
-    dest: /tmp/special/
-    flat: yes
+#- name: Copy /home/vagrant (montoxo) dir to NFS server
+#  ansible.builtin.copy:
+#    src: "root@{{ montoxo_ip }}:{{ vagrant_path }}"
+#    dest: "{{ vagrant_path }}"
+#    remote_src: yes
+
+- name: Copy /home/vagrant (montoxo) dir to NFS server
+  ansible.builtin.command: "sshpass -p {{ montoxo_passwd }} scp -r root@{{ montoxo_ip }}:{{ vagrant_path }} /home"

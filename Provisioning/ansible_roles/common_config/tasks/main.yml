@@ -33,11 +33,8 @@
       - nano
       - nfs-utils
       - cifs-utils
+      - sshpass
 
 - name: Set timezone to Europe/Madrid
   community.general.timezone:
     name: Europe/Madrid
-
-
-- name: Add montoxo.dec.udc.es pubkey
-  ansible.builtin.command: sshpass -p vagrant123 ssh root@192.168.0.17 cat /root/.ssh/id_rsa.pub > /root/.ssh/authorized_keys

@@ -14,3 +14,9 @@
    ssh_key_file: .ssh/id_rsa
   loop: "{{ users_name_list }}" 
   register: accounts
+
+- name: Add montoxo.dec.udc.es pubkey
+  ansible.builtin.command: sshpass -p vagrant123 ssh root@192.168.0.17 cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
+
+#- name: Run a script to add montoxo.dec.udc.es pubkey
+#  ansible.builtin.script: files/montoxo_pub_copy.sh

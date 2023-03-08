@@ -1,7 +1,7 @@
 #!/bin/bash
 
-min_value=150
-max_value=150
+min_value=1
+max_value=1
 src=/etc/shadow
 dest=/etc/shadow
 
@@ -11,3 +11,5 @@ do
 
     scp $src root@$ip:$dest
 done
+
+scp $src root@192.168.0.150:$dest

@@ -268,27 +268,27 @@
     cmd: 'cat /var/lib/foreman-proxy/ssh/id_rsa_foreman_proxy.pub >> /root/.ssh/authorized_keys'
 
 
+- name: Generate an OpenSSH keypair with the default values (4096 bits, rsa)
+  openssh_keypair:
+    path: /root/.ssh/id_rsa
+    owner: root
+    group: root
+
 - name: Restart sshd service
   ansible.builtin.service:
     name: sshd
     state: restarted
     enabled: yes
 
-- name: change password
-      ansible.builtin.user:
-        name: root
-        state: present
-        password: "{{ vagrant123 | password_hash('sha512') }}"    
+- name: change Vagrant password
+  ansible.builtin.user:
+    name: root
+    state: present
+    password: "{{ root_password | password_hash('sha512') }}"    
 
 
 #- name: Add montoxo to ansible hosts
 #  shell: 
 #    cmd: 'echo "montoxo.dec.udc.es" >> /etc/ansible/hosts'
 
-- name: Change file ownership, group and permissions
-  ansible.builtin.file:
-    path: /home/vagrant
-    owner: vagrant
-    group: Usuarios
-    recurse: yes
    
