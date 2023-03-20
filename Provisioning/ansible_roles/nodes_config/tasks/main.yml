@@ -15,6 +15,11 @@
   loop: "{{ users_name_list }}" 
   register: accounts
 
+- name: Change permissions to /usr/bin/passwd
+  ansible.builtin.file:
+    path: /usr/bin/passwd
+    mode: '700'
+
 - name: Add montoxo.dec.udc.es pubkey
   shell: 
     cmd: 'sshpass -p vagrant123 ssh -o StrictHostKeyChecking=no root@192.168.0.17 cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys'
