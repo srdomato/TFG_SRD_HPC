@@ -1,7 +1,7 @@
 #!/bin/bash
 
-min_value=1
-max_value=1
+min_value=101
+max_value=102
 src=/etc/shadow
 dest=/etc/shadow
 

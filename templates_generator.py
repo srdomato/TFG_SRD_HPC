@@ -20,6 +20,7 @@ output = t.render(
 		MASTER_NODE_DISK_SIZE	= doc["variables"]["MASTER_NODE_DISK_SIZE"],
 		ISO_SERVER_IP			= doc["variables"]["ISO_SERVER_IP"],
 		INTERFACE_BRIDGE      	= doc["variables"]["INTERFACE_BRIDGE"],
+		ROOT_PASSWORD      		= doc["variables"]["ROOT_PASSWORD"],
 		BRIDGE_HOST_IP        	= doc["variables"]["BRIDGE_HOST_IP"])
 
 

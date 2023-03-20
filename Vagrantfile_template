@@ -9,6 +9,7 @@ MASTER_NODE_DISK_SIZE	= "{{ MASTER_NODE_DISK_SIZE }}"
 ISO_SERVER_IP         = "{{ ISO_SERVER_IP }}"
 INTERFACE_BRIDGE      = "{{ INTERFACE_BRIDGE }}"
 BRIDGE_HOST_IP        = "{{ BRIDGE_HOST_IP }}"
+ROOT_PASSWORD         = "{{ ROOT_PASSWORD }}"
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
@@ -27,6 +28,9 @@ Vagrant.configure("2") do |config|
   config.vm.define "mnode", primary: true do |mnode|
 
     mnode.vm.box = "generic/rocky8"
+
+    #mnode.ssh.username = 'root'
+    #mnode.ssh.password = ROOT_PASSWORD
 
     # Disable automatic box update checking. If you disable this, then
     # boxes will only be checked for updates when the user runs
