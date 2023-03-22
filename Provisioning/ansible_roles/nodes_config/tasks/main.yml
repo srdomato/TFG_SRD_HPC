@@ -48,3 +48,10 @@
     name: chronyd
     state: restarted
     enabled: yes
+
+
+- name: Install the latest version of OHPC-Slurm-Client
+  ansible.builtin.dnf:
+    name: ohpc-slurm-client
+    state: latest
+

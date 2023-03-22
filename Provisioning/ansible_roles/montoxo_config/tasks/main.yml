@@ -52,3 +52,27 @@
     name: chronyd
     state: restarted
     enabled: yes
+
+- name: Install the latest version of OHPC-Slurm-Server
+  ansible.builtin.dnf:
+    name: ohpc-slurm-server
+    state: latest
+
+
+- name: Copy Slurm Configuartion File
+  ansible.builtin.copy:
+    src: /etc/slurm/slurm.conf.ohpc
+    dest: /etc/slurm/slurm.conf
+
+
+- name: Restart service Slurmctl, if not started
+  ansible.builtin.service:
+    name: slurmctld
+    state: restarted
+    enabled: yes
+
+- name: Restart service Slurmdbd, if not started
+  ansible.builtin.service:
+    name: slurmdbd
+    state: restarted
+    enabled: yes  
