@@ -6,3 +6,15 @@ users_name_list:
   - user2
   - user3
 vagrant_user: vagrant
+
+# Slrum Conf File
+TASK_PLUGIN: task/cgroup,task/affinity
+TOPOLOGY_PLUGIN: topology/none
+PROCTRACK_TYPE: proctrack/cgroup
+SLURMCTL_HOST: montoxo.dec.udc.es
+SELECT_TYPE_PARAMETERS: CR_Core_Memory
+NODES_NAME: node[1-2]
+REAL_MEM: 4096
+NODES_CPUs: 2
+MAX_TIME: 24:00:00
+PARTITION_NAME: batch

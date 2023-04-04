@@ -26,32 +26,3 @@
 
 #- name: Run a script to add montoxo.dec.udc.es pubkey
 #  ansible.builtin.script: files/montoxo_pub_copy.sh
-
-
-- name: Start service Chronyd, if not started
-  ansible.builtin.service:
-    name: chronyd
-    state: started
-    enabled: yes
-
-- name: Copy Chrony Server Configuartion File
-  ansible.builtin.copy:
-    src: /vagrant/Provisioning/chrony_config/client/chrony.conf
-    dest: /etc/chrony.conf
-
-- name: Enable NTP synchronization.
-  ansible.builtin.command: timedatectl set-ntp true    
-
-
-- name: Restart service Chronyd
-  ansible.builtin.service:
-    name: chronyd
-    state: restarted
-    enabled: yes
-
-
-- name: Install the latest version of OHPC-Slurm-Client
-  ansible.builtin.dnf:
-    name: ohpc-slurm-client
-    state: latest
-

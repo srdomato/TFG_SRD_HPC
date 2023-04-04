@@ -6,3 +6,47 @@
     src: "{{ nfs_server}}:{{ nfs_dir }}"
     fstype: nfs
     state: mounted
+
+- name: Start service Chronyd, if not started
+  ansible.builtin.service:
+    name: chronyd
+    state: started
+    enabled: yes
+
+- name: Copy Chrony Server Configuartion File
+  ansible.builtin.copy:
+    src: /vagrant/Provisioning/chrony_config/client/chrony.conf
+    dest: /etc/chrony.conf
+
+- name: Enable NTP synchronization.
+  ansible.builtin.command: timedatectl set-ntp true    
+
+
+- name: Restart service Chronyd
+  ansible.builtin.service:
+    name: chronyd
+    state: restarted
+    enabled: yes
+
+
+- name: Install the latest version of OHPC-Slurm-Client
+  ansible.builtin.dnf:
+    name: ohpc-slurm-client
+    state: latest
+
+
+- name: Copy CGroup Slurm Configuartion File
+  ansible.builtin.copy:
+    src: /vagrant/Provisioning/slurm_config/cgroup.conf
+    dest: /etc/slurm/cgroup.conf 
+
+
+- name: Enable ssh control via resource manager Slurm
+  shell: 
+    cmd: 'echo "account required pam_slurm.so" >> /etc/pam.d/sshd'
+
+- name: Restart service Munge
+  ansible.builtin.service:
+    name: munge
+    state: restarted
+    enabled: yes

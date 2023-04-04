@@ -60,8 +60,8 @@
 
 
 - name: Copy Slurm Configuartion File
-  ansible.builtin.copy:
-    src: /etc/slurm/slurm.conf.ohpc
+  template:
+    src: /vagrant/Provisioning/slurm_config/slurm.conf.j2
     dest: /etc/slurm/slurm.conf
 
 
