@@ -1,0 +1,42 @@
+---
+# tasks file for nfs-client
+- name: Mount NFS share
+  mount:
+    path: "{{ nfs_dir }}"
+    src: "{{ nfs_server}}:{{ nfs_dir }}"
+    fstype: nfs
+    state: mounted
+
+- name: Enable NTP synchronization.
+  ansible.builtin.command: timedatectl set-ntp true    
+
+
+- name: Copy CGroup Slurm Configuartion File
+  ansible.builtin.copy:
+    src: /vagrant/Provisioning/slurm_config/cgroup.conf
+    dest: /etc/slurm/cgroup.conf 
+
+
+- name: Copy Slurm Configuartion File
+  template:
+    src: /vagrant/Provisioning/slurm_config/slurm.conf.j2
+    dest: /etc/slurm/slurm.conf
+ 
+
+- name: Restart service Slurmctl, if not started
+  ansible.builtin.service:
+    name: slurmctld
+    state: restarted
+    enabled: yes
+
+- name: Restart service Slurmdbd, if not started
+  ansible.builtin.service:
+    name: slurmdbd
+    state: restarted
+    enabled: yes
+
+- name: Restart service Munge
+  ansible.builtin.service:
+    name: munge
+    state: restarted
+    enabled: yes

@@ -9,3 +9,5 @@ variables:
   BRIDGE_HOST_IP: 192.168.0.17
   INTERFACE_BRIDGE: eth0
   ROOT_PASSWORD: vagrant123
+
+vagrant_password: vagrant123

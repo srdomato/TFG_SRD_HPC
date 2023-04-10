@@ -9,3 +9,4 @@ fi
 ./templates_generator.py
 vagrant box update
 vagrant up
+vagrant halt

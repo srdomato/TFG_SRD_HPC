@@ -1,7 +1,0 @@
----
-# vars file for nfs-client
-# Hostname of the NFS server
-nfs_server: nfs-server.dec.udc.es
-
-# NFS exported directory
-nfs_dir: /home

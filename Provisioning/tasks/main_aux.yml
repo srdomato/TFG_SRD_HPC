@@ -285,7 +285,7 @@
   ansible.builtin.user:
     name: root
     state: present
-    password: "{{ root_password | password_hash('sha512') }}"    
+    password: "{{ vagrant_password | password_hash('sha512') }}"    
 
 
 #- name: Add montoxo to ansible hosts

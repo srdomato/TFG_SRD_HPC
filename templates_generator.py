@@ -6,7 +6,7 @@ from jinja2 import Template
 
 # ---------------------- Vagrant ---------------------- 
 
-with open("./Provisioning/vars/vagrant_vars.yml") as variables:
+with open("./Provisioning/vars/main_vars.yml") as variables:
 	doc = yaml.safe_load(variables)
 
 with open("Vagrantfile_template") as VagrantTemplate:

@@ -33,6 +33,9 @@
     group: "{{ group_name }}"
 
 
+- name: Install OpenHPC repo 
+  ansible.builtin.command: yum install -y http://repos.openhpc.community/OpenHPC/2/EL_8/x86_64/ohpc-release-2-1.el8.x86_64.rpm
+
 - name: Start service Chronyd, if not started
   ansible.builtin.service:
     name: chronyd
@@ -44,9 +47,6 @@
     src: /vagrant/Provisioning/chrony_config/server/chrony.conf
     dest: /etc/chrony.conf
 
-- name: Enable NTP synchronization.
-  ansible.builtin.command: timedatectl set-ntp true
-
 - name: Restart service Chronyd
   ansible.builtin.service:
     name: chronyd
@@ -57,22 +57,3 @@
   ansible.builtin.dnf:
     name: ohpc-slurm-server
     state: latest
-
-
-- name: Copy Slurm Configuartion File
-  template:
-    src: /vagrant/Provisioning/slurm_config/slurm.conf.j2
-    dest: /etc/slurm/slurm.conf
-
-
-- name: Restart service Slurmctl, if not started
-  ansible.builtin.service:
-    name: slurmctld
-    state: restarted
-    enabled: yes
-
-- name: Restart service Slurmdbd, if not started
-  ansible.builtin.service:
-    name: slurmdbd
-    state: restarted
-    enabled: yes  

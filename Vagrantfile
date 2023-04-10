@@ -9,6 +9,7 @@ MASTER_NODE_DISK_SIZE	= "32GB"
 ISO_SERVER_IP         = "192.168.0.27"
 INTERFACE_BRIDGE      = "eth0"
 BRIDGE_HOST_IP        = "192.168.0.17"
+ROOT_PASSWORD         = "vagrant123"
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
@@ -29,8 +30,7 @@ Vagrant.configure("2") do |config|
     mnode.vm.box = "generic/rocky8"
 
     mnode.ssh.username = 'root'
-    mnode.ssh.password = 'vagrant123'
-
+    mnode.ssh.password = ROOT_PASSWORD
 
     # Disable automatic box update checking. If you disable this, then
     # boxes will only be checked for updates when the user runs

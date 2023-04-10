@@ -1,11 +1,18 @@
 ---
-# tasks file for nfs-client
+# tasks file for compute_nodes
+
 - name: Mount NFS share
   mount:
     path: "{{ nfs_dir }}"
     src: "{{ nfs_server}}:{{ nfs_dir }}"
     fstype: nfs
     state: mounted
+
+- name: Enable NTP synchronization.
+  ansible.builtin.command: timedatectl set-ntp true 
+
+- name: Install OpenHPC repo 
+  ansible.builtin.command: yum install -y http://repos.openhpc.community/OpenHPC/2/EL_8/x86_64/ohpc-release-2-1.el8.x86_64.rpm
 
 - name: Start service Chronyd, if not started
   ansible.builtin.service:
@@ -18,21 +25,20 @@
     src: /vagrant/Provisioning/chrony_config/client/chrony.conf
     dest: /etc/chrony.conf
 
-- name: Enable NTP synchronization.
-  ansible.builtin.command: timedatectl set-ntp true    
-
-
 - name: Restart service Chronyd
   ansible.builtin.service:
     name: chronyd
     state: restarted
-    enabled: yes
-
+    enabled: yes    
 
 - name: Install the latest version of OHPC-Slurm-Client
   ansible.builtin.dnf:
     name: ohpc-slurm-client
     state: latest
+
+- name: Enable ssh control via resource manager Slurm
+  shell: 
+    cmd: 'echo "account required pam_slurm.so" >> /etc/pam.d/sshd'
 
 
 - name: Copy CGroup Slurm Configuartion File
@@ -41,9 +47,16 @@
     dest: /etc/slurm/cgroup.conf 
 
 
-- name: Enable ssh control via resource manager Slurm
-  shell: 
-    cmd: 'echo "account required pam_slurm.so" >> /etc/pam.d/sshd'
+- name: Copy Slurm Configuartion File
+  template:
+    src: /vagrant/Provisioning/slurm_config/slurm.conf.j2
+    dest: /etc/slurm/slurm.conf  
+
+- name: Restart service Slurmd, if not started
+  ansible.builtin.service:
+    name: slurmd
+    state: restarted
+    enabled: yes
 
 - name: Restart service Munge
   ansible.builtin.service:

@@ -39,18 +39,3 @@
 - name: Set timezone to Europe/Madrid
   community.general.timezone:
     name: Europe/Madrid
-
-- name: Install OpenHPC repo 
-  ansible.builtin.command: yum install -y http://repos.openhpc.community/OpenHPC/2/EL_8/x86_64/ohpc-release-2-1.el8.x86_64.rpm
-
-- name: Restart service Slurmd, if not started
-  ansible.builtin.service:
-    name: slurmd
-    state: restarted
-    enabled: yes
-
-- name: Restart service Munge, if not started
-  ansible.builtin.service:
-    name: munge
-    state: restarted
-    enabled: yes  
