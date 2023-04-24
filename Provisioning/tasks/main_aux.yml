@@ -137,7 +137,14 @@
   ansible.posix.firewalld:
     port: 67-69/udp
     permanent: yes
-    state: enabled           
+    state: enabled
+
+- name: Permit trafic ports UDP Slurm
+  ansible.posix.firewalld:
+    port: 6817-6819/udp
+    permanent: yes
+    state: enabled    
+
 
 - name: Roloading Firewalld
   ansible.builtin.command: sudo firewall-cmd --reload

@@ -48,4 +48,12 @@
 - name: Add Pubkey to it's own authorized_keys
   shell: 
     cmd: 'cat /home/{{ item }}/.ssh/id_rsa.pub >> /home/{{ item }}/.ssh/authorized_keys'
-  loop: "{{ users_name_list }}"  
+  loop: "{{ users_name_list }}" 
+
+
+#- name: Add Pubkey to it's own authorized_keys
+#  ansible.posix.authorized_key:
+#    user: "{{ item }}"
+#    state: present
+#    key: "{{ lookup('file', '/home/{{ item }}/.ssh/id_rsa.pub') }}"
+#  loop: "{{ users_name_list }}"     
