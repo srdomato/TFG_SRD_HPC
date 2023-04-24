@@ -44,3 +44,8 @@
 
 - name: Copy /home/vagrant (montoxo) dir to NFS server
   ansible.builtin.command: "sshpass -p {{ montoxo_passwd }} scp -r root@{{ montoxo_ip }}:{{ vagrant_path }} /home"
+
+- name: Add Pubkey to it's own authorized_keys
+  shell: 
+    cmd: 'cat /home/{{ item }}/.ssh/id_rsa.pub >> /home/{{ item }}/.ssh/authorized_keys'
+  loop: "{{ users_name_list }}"  

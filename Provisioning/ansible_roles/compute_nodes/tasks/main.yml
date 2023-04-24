@@ -37,8 +37,9 @@
     state: latest
 
 - name: Enable ssh control via resource manager Slurm
-  shell: 
-    cmd: 'echo "account required pam_slurm.so" >> /etc/pam.d/sshd'
+  ansible.builtin.lineinfile: 
+    path: /etc/pam.d/sshd
+    line: -account required pam_slurm_adopt.so
 
 
 - name: Copy CGroup Slurm Configuartion File
@@ -51,6 +52,10 @@
   template:
     src: /vagrant/Provisioning/slurm_config/slurm.conf.j2
     dest: /etc/slurm/slurm.conf  
+
+- name: Copy munge.key from montoxo
+  shell: 
+    cmd: 'sshpass -p {{ montoxo_passwd }} scp -o StrictHostKeyChecking=no root@{{ front_node }}:/etc/munge/munge.key /etc/munge/munge.key'
 
 - name: Restart service Slurmd, if not started
   ansible.builtin.service:

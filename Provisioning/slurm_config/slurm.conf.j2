@@ -152,19 +152,19 @@ SlurmdLogFile=/var/log/slurmd.log
 
 # OpenHPC default configuration
 
-TaskPlugin="{{ TASK_PLUGIN }}"
-TopologyPlugin="{{ TOPOLOGY_PLUGIN }}"
-ProctrackType="{{ PROCTRACK_TYPE }}"
-SlurmctldHost="{{ SLURMCTL_HOST }}"
-SelectTypeParameters="{{ SELECT_TYPE_PARAMETERS }}"
-
+TaskPlugin={{ TASK_PLUGIN }}
+TopologyPlugin={{ TOPOLOGY_PLUGIN }}
+ProctrackType={{ PROCTRACK_TYPE }}
+SlurmctldHost={{ SLURMCTL_HOST }}
+SelectTypeParameters={{ SELECT_TYPE_PARAMETERS }}
+PrologFlags=Alloc,Contain
 
 # COMPUTE NODES
 PropagateResourceLimitsExcept=MEMLOCK
 JobCompType=jobcomp/filetxt
 Epilog=/etc/slurm/slurm.epilog.clean
-SlurmctldParameters=enable_configless
+#SlurmctldParameters=enable_configless
 ReturnToService=1
 
-NodeName="{{ NODES_NAME }}" CPUs="{{ NODES_CPUs }}" State=IDLE RealMemory="{{ REAL_MEM }}"
-PartitionName="{{ PARTITION_NAME }}" Nodes="{{ NODES_NAME }}" Default=YES MaxTime="{{ MAX_TIME }}" State=UP
+NodeName={{ NODES_NAME }} CPUs={{ NODES_CPUs }} Sockets=1 CoresPerSocket={{ NODES_CPUs }} State=IDLE RealMemory={{ REAL_MEM }}
+PartitionName={{ PARTITION_NAME }} Nodes={{ NODES_NAME }} Default=YES MaxTime={{ MAX_TIME }} State=UP

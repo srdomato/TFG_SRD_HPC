@@ -18,3 +18,9 @@ vagrant_path: /home/vagrant/
 
 # Root Montoxo Passwd
 montoxo_passwd: vagrant123
+
+users_name_list:
+  - user1
+  - user2
+  - user3
+  - vagrant

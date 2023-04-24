@@ -2,7 +2,8 @@
 # vars file for compute_nodes
 # Hostname of the NFS server
 nfs_server: nfs-server.dec.udc.es
-
+front_node: montoxo.dec.udc.es
+montoxo_passwd: vagrant123
 # NFS exported directory
 nfs_dir: /home
 
