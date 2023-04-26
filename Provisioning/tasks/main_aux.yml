@@ -120,18 +120,18 @@
     state: enabled 
   loop:
     - 22
-    - 53
+    #- 53
     - 80
-    - 123 #NTP
+    #- 123 #NTP
     - 443
-    - 3000
-    - 8140
-    - 3306
-    - 5432
+    #- 3000
+    #- 8140
+    #- 3306
+    #- 5432
     - 8443
-    - 6817-6819 #slurm
-    - 5910-5930
-    - 60000-60029
+    #- 6817-6819 #slurm
+    #- 5910-5930
+    #- 60000-60029
           
 - name: Permit trafic ports UDP
   ansible.posix.firewalld:
@@ -145,6 +145,15 @@
     permanent: yes
     state: enabled    
 
+
+# firewall-cmd --zone=trusted --change-interface=eth1 --permanent
+
+- name: Add eth1 to trusted Zone
+  ansible.posix.firewalld:
+    zone: trusted
+    interface: eth1
+    permanent: true
+    state: enabled
 
 - name: Roloading Firewalld
   ansible.builtin.command: sudo firewall-cmd --reload
