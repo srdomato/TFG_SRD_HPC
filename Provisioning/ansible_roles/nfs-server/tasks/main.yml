@@ -1,6 +1,9 @@
 ---
 # tasks file for nfs-server
 
+- name: Copy /home/vagrant (montoxo) dir to NFS server
+  ansible.builtin.command: "sshpass -p {{ montoxo_passwd }} scp -r root@{{ montoxo_ip }}:{{ vagrant_path }} /home"
+
 - name: Ensure NFS server is started and enabled at boot
   service:
     name: nfs-server
@@ -41,9 +44,6 @@
 #    src: "root@{{ montoxo_ip }}:{{ vagrant_path }}"
 #    dest: "{{ vagrant_path }}"
 #    remote_src: yes
-
-- name: Copy /home/vagrant (montoxo) dir to NFS server
-  ansible.builtin.command: "sshpass -p {{ montoxo_passwd }} scp -r root@{{ montoxo_ip }}:{{ vagrant_path }} /home"
 
 - name: Add Pubkey to it's own authorized_keys
   shell: 

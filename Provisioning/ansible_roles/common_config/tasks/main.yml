@@ -8,6 +8,11 @@
   ansible.posix.selinux:
     state: disabled
 
+- name: Create Vagrant Group
+  ansible.builtin.group:
+    name: vagrant
+    state: present
+
 - name: Create Usuarios Group
   ansible.builtin.group:
     name: "{{ group_name }}"

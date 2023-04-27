@@ -40,24 +40,51 @@
     name: munge
     state: restarted
     enabled: yes
-
-# firewall-cmd --permanent --zone=public --remove-interface=eth1
-
+ 
 - name: Remove from Public Zone eth1
-  ansible.posix.firewalld:
-    zone: public
-    interface: eth1
-    permanent: true
-    state: disabled
+  ansible.builtin.command: firewall-cmd --permanent --zone=public --remove-interface=eth1
 
-# firewall-cmd --zone=trusted --change-interface=eth1 --permanent
+#- name: Remove from Public Zone eth1
+#  ansible.posix.firewalld:
+#    zone: public
+#    interface: eth1
+#    permanent: true
+#    immediate: true
+#    state: disabled
 
 - name: Add eth1 to trusted Zone
-  ansible.posix.firewalld:
-    zone: trusted
-    interface: eth1
-    permanent: true
-    state: enabled
+  ansible.builtin.command: firewall-cmd --zone=trusted --change-interface=eth1 --permanent
+
+#- name: Add eth1 to trusted Zone
+#  ansible.posix.firewalld:
+#    zone: trusted
+#    interface: eth1
+#    permanent: true
+#    immediate: true
+#    state: enabled
 
 - name: Roloading Firewalld
   ansible.builtin.command: sudo firewall-cmd --reload    
+
+
+- name: Installing OHPC modules
+  dnf:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+      - ohpc-autotools
+      - gnu12-compilers-ohpc
+      - gnu9-compilers-ohpc
+      - openmpi4-gnu12-ohpc
+      - openmpi4-gnu9-ohpc
+      - mvapich2-gnu12-ohpc
+      - ohpc-gnu12-perf-tools
+      - hwloc-ohpc
+      - lmod-ohpc
+
+
+- name: Copy /etc/resolv.conf file
+  ansible.builtin.copy:
+    src: /vagrant/Provisioning/resolv_config/resolv.conf
+    dest: /etc/resolv.conf

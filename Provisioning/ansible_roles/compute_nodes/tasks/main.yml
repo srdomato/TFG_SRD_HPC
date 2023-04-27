@@ -73,4 +73,23 @@
   service:
     name: firewalld
     state: stopped
-    enabled: False    
+    enabled: False
+
+- name: Enable Powertools.
+  ansible.builtin.command: dnf config-manager --set-enabled powertools
+
+- name: Installing OHPC modules
+  dnf:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+      - ohpc-autotools
+      - gnu12-compilers-ohpc
+      - gnu9-compilers-ohpc
+      - openmpi4-gnu12-ohpc
+      - openmpi4-gnu9-ohpc
+      - mvapich2-gnu12-ohpc
+      - ohpc-gnu12-perf-tools
+      - hwloc-ohpc
+      - lmod-ohpc
