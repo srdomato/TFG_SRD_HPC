@@ -1,0 +1,33 @@
+SLURM_JOBID=100
+SLURM_JOB_NODELIST=node1
+SLURM_JOB_NUM_NODES=1
+SLURM_NTASKS=2
+
+
+-----------------------------------------
+
+
+Parallel execution using mvapich2 with gnu12: /opt/ohpc/pub/mpi/mvapich2-gnu12/2.3.7
+Wed May 10 17:44:56 CEST 2023
+HYDRA build details:
+    Version:                                 3.2.1
+    Release Date:                            General Availability Release
+    CC:                              gcc  -O3 -g -pipe -Wall -fexceptions -fstack-protector-strong -grecord-gcc-switches -mtune=generic -m64  
+    CXX:                             g++  -O3 -g -pipe -Wall -fexceptions -fstack-protector-strong -grecord-gcc-switches -mtune=generic -m64  
+    F77:                             gfortran -fallow-argument-mismatch  
+    F90:                             gfortran -O3 -g -pipe -Wall -fexceptions -fstack-protector-strong -grecord-gcc-switches -mtune=generic -m64  
+    Configure options:                       '--disable-option-checking' '--prefix=/opt/ohpc/pub/mpi/mvapich2-gnu12/2.3.7' '--libdir=/opt/ohpc/pub/mpi/mvapich2-gnu12/2.3.7/lib' '--enable-cxx' '--enable-g=dbg' '--with-device=ch3:mrail' '--disable-ibv-dlopen' '--enable-fast=O3' 'CC=gcc' 'CFLAGS=-O3 -g -pipe -Wall -fexceptions -fstack-protector-strong -grecord-gcc-switches -mtune=generic -m64 -g -O3' 'CXX=g++' 'CXXFLAGS=-O3 -g -pipe -Wall -fexceptions -fstack-protector-strong -grecord-gcc-switches -mtune=generic -m64 -g -O3' 'FC=gfortran' 'FCFLAGS=-O3 -g -pipe -Wall -fexceptions -fstack-protector-strong -grecord-gcc-switches -mtune=generic -m64 -g -O3' 'F77=gfortran' 'FFLAGS=-fallow-argument-mismatch -g -O3' '--cache-file=/dev/null' '--srcdir=.' 'LDFLAGS=' 'LIBS=-lrt -libmad -lrdmacm -libumad -libverbs -ldl -lm -lpthread ' 'CPPFLAGS= -I/home/abuild/rpmbuild/BUILD/mvapich2-2.3.7/src/mpl/include -I/home/abuild/rpmbuild/BUILD/mvapich2-2.3.7/src/mpl/include -I/home/abuild/rpmbuild/BUILD/mvapich2-2.3.7/src/openpa/src -I/home/abuild/rpmbuild/BUILD/mvapich2-2.3.7/src/openpa/src -D_REENTRANT -I/home/abuild/rpmbuild/BUILD/mvapich2-2.3.7/src/mpi/romio/include' 'MPLLIBNAME=mpl'
+    Process Manager:                         pmi
+    Launchers available:                     ssh rsh fork slurm ll lsf sge manual persist
+    Topology libraries available:            hwloc
+    Resource management kernels available:   user slurm ll lsf sge pbs cobalt
+    Checkpointing libraries available:       
+    Demux engines available:                 poll select
+NPROCS=2, N=2000000000, TIMES=40
+node1.dec.udc.es: I am process 0 of 2
+node1.dec.udc.es: I am process 1 of 2
+pi is approximately 3.1415926535896617, Error is 0.0000000000001315
+Time (seconds) = 40.8002960000
+
+
+-----------------------------------------

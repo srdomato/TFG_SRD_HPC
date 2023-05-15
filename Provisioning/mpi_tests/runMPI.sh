@@ -1,55 +1,84 @@
 #!/bin/bash
 #SBATCH --job-name=mpi
 #SBATCH --output=%x_%j.out
+# sbatch -t 10000 -N1 -n2 runMPI.sh
+# sbatch -t 10000 -N2 -n4 runMPI.sh
+
 echo "SLURM_JOBID="$SLURM_JOBID
 echo "SLURM_JOB_NODELIST"=$SLURM_JOB_NODELIST
 echo "SLURM_JOB_NUM_NODES"=$SLURM_JOB_NUM_NODES
 echo "SLURM_NTASKS"=$SLURM_NTASKS
 
-module purge
 
-echo "Sequential execution with gnu9"
+
+# ----------------- SEQUENTIAL -----------------
+
+module purge
+echo -e "\n"
+
+echo "Sequential execution with gnu9 and openmpi4"
 date
 module load gnu9
 module load openmpi4
-mpicc -o mpi-pi-gnu9-openmpi4 mpi-pi.c
+mpicc -w -o $HOME/mpi-pi-gnu9-openmpi4 $HOME/mpi-pi.c
 ./mpi-pi-gnu9-openmpi4
 
+echo -e "\n"
+echo "-----------------------------------------"
 #------------------------------------
+echo -e "\n"
 
-echo "Sequential execution with gnu12 with openmpi4"
+echo "Sequential execution with gnu12 and openmpi4"
 date
-module swap gnu9/9.4.0 gnu12/12.2.0
+module swap gnu9 gnu12
 #module load openmpi4
-mpicc -o mpi-pi-gnu12-openmpi4 mpi-pi.c
+mpicc -w -o $HOME/mpi-pi-gnu12-openmpi4 $HOME/mpi-pi.c
 ./mpi-pi-gnu12-openmpi4
 
-echo "Sequential execution with gnu12 with openmpi4"
+echo -e "\n"
+echo "-----------------------------------------"
+echo -e "\n"
+
+
+echo "Compilation with gnu12 and mpich"
 date
-module swap openmpi4/4.1.4 mvapich2/2.3.7
-mpi -o mpi-pi-gnu12-mvapich mpi-pi.c
-./mpi-pi-gnu12-mvapich
+module swap openmpi4 mpich
+mpicc -w -o $HOME/mpi-pi-gnu12-mpich $HOME/mpi-pi.c
 
-#------------------------------------
+echo -e "\n"
+echo "-----------------------------------------"
+echo -e "\n"
 
-module swap gnu12/12.2.0 gnu9/9.4.0
-module swap mvapich2/2.3.7 openmpi4/4.1.4
+# ----------------- PARALLEL -----------------
+
+module purge
+module load gnu9
+module load openmpi4
 echo "Parallel execution using Open MPI 4 with gnu9: $MPI_DIR"
 date
-mpirun --version
-mpirun -np $SLURM_NTASKS mpi-pi-gnu9-openmpi4
+mpiexec --version
+mpiexec -n $SLURM_NTASKS $HOME/mpi-pi-gnu9-openmpi4
 
+echo -e "\n"
+echo "-----------------------------------------"
 #------------------------------------
+echo -e "\n"
 
-module swap gnu9/9.4.0 gnu12/12.2.0
-module swap mvapich2/2.3.7 openmpi4
+module swap gnu9 gnu12
 echo "Parallel execution using Open MPI 12 with gnu12: $MPI_DIR"
 date
-mpirun --version
-mpirun -np $SLURM_NTASKS mpi-pi-gnu12-openmpi4
+mpiexec --version
+mpiexec -n $SLURM_NTASKS $HOME/mpi-pi-gnu12-openmpi4
 
-module swap openmpi4/4.1.4 mvapich2/2.3.7
-echo "Parallel execution using mvapich2 with gnu12: $MPI_DIR"
+echo -e "\n"
+echo "-----------------------------------------"
+echo -e "\n"
+
+module swap openmpi4 mpich
+echo "Parallel execution using mpich with gnu12: $MPI_DIR"
 date
-mpirun --version
-mpirun -np $SLURM_NTASKS mpi-pi-gnu12-mvapich
+mpiexec --version
+mpiexec -n $SLURM_NTASKS $HOME/mpi-pi-gnu12-mpich
+
+echo -e "\n"
+echo "-----------------------------------------"

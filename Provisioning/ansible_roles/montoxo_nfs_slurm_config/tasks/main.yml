@@ -82,6 +82,7 @@
       - ohpc-gnu12-perf-tools
       - hwloc-ohpc
       - lmod-ohpc
+      - mpich-ucx-gnu12-ohpc
 
 
 - name: Copy /etc/resolv.conf file

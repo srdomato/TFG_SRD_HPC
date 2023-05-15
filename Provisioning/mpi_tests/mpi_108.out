@@ -1,0 +1,93 @@
+SLURM_JOBID=108
+SLURM_JOB_NODELIST=node1
+SLURM_JOB_NUM_NODES=1
+SLURM_NTASKS=2
+
+
+Sequential execution with gnu9 and openmpi4
+Fri May 12 19:20:42 CEST 2023
+NPROCS=1, N=2000000000, TIMES=40
+node1.dec.udc.es: I am process 0 of 1
+pi is approximately 3.1415926535898389, Error is 0.0000000000000457
+Time (seconds) = 753.9113460000
+
+
+-----------------------------------------
+
+
+Sequential execution with gnu12 and openmpi4
+Fri May 12 19:33:18 CEST 2023
+
+The following have been reloaded with a version change:
+  1) openmpi4/4.1.1 => openmpi4/4.1.4
+
+NPROCS=1, N=2000000000, TIMES=40
+node1.dec.udc.es: I am process 0 of 1
+pi is approximately 3.1415926535898389, Error is 0.0000000000000457
+Time (seconds) = 170.1290910000
+
+
+-----------------------------------------
+
+
+Compilation with gnu12 and mpich
+Fri May 12 19:36:10 CEST 2023
+
+
+-----------------------------------------
+
+
+Parallel execution using Open MPI 4 with gnu9: /opt/ohpc/pub/mpi/openmpi4-gnu9/4.1.1
+Fri May 12 19:36:10 CEST 2023
+mpiexec (OpenRTE) 4.1.1
+
+Report bugs to http://www.open-mpi.org/community/help/
+NPROCS=2, N=2000000000, TIMES=40
+node1.dec.udc.es: I am process 0 of 2
+node1.dec.udc.es: I am process 1 of 2
+pi is approximately 3.1415926535896617, Error is 0.0000000000001315
+Time (seconds) = 379.6673550000
+
+
+-----------------------------------------
+
+
+
+The following have been reloaded with a version change:
+  1) openmpi4/4.1.1 => openmpi4/4.1.4
+
+Parallel execution using Open MPI 12 with gnu12: /opt/ohpc/pub/mpi/openmpi4-gnu12/4.1.4
+Fri May 12 19:42:32 CEST 2023
+mpiexec (OpenRTE) 4.1.4
+
+Report bugs to http://www.open-mpi.org/community/help/
+node1.dec.udc.es: I am process 1 of 2
+NPROCS=2, N=2000000000, TIMES=40
+node1.dec.udc.es: I am process 0 of 2
+pi is approximately 3.1415926535896617, Error is 0.0000000000001315
+Time (seconds) = 84.9807000000
+
+
+-----------------------------------------
+
+
+Parallel execution using mpich with gnu12: /opt/ohpc/pub/mpi/mpich-ucx-gnu12-ohpc/3.4.3
+Fri May 12 19:43:58 CEST 2023
+HYDRA build details:
+    Version:                                 3.4.3
+    Release Date:                            Thu Dec 16 11:20:57 CST 2021
+    CC:                              gcc  -O3 -g -pipe -Wall -fexceptions -fstack-protector-strong -grecord-gcc-switches -mtune=generic -m64  
+    Configure options:                       '--disable-option-checking' '--prefix=/opt/ohpc/pub/mpi/mpich-ucx-gnu12-ohpc/3.4.3' '--libdir=/opt/ohpc/pub/mpi/mpich-ucx-gnu12-ohpc/3.4.3/lib' '--with-device=ch4:ucx' '--with-ucx=/opt/ohpc/pub/mpi/ucx-ohpc/1.11.2' 'CC=gcc' 'CFLAGS=-O3 -g -pipe -Wall -fexceptions -fstack-protector-strong -grecord-gcc-switches -mtune=generic -m64 -O2' 'CXX=g++' 'CXXFLAGS=-O3 -g -pipe -Wall -fexceptions -fstack-protector-strong -grecord-gcc-switches -mtune=generic -m64 -O2' 'FC=gfortran' 'FCFLAGS=-O3 -g -pipe -Wall -fexceptions -fstack-protector-strong -grecord-gcc-switches -mtune=generic -m64 -O2' 'F77=gfortran' 'FFLAGS=-fallow-argument-mismatch -O2' '--cache-file=/dev/null' '--srcdir=.' 'LDFLAGS= -L/opt/ohpc/pub/mpi/ucx-ohpc/1.11.2/lib' 'LIBS=' 'CPPFLAGS= -I/opt/ohpc/pub/mpi/ucx-ohpc/1.11.2/include -DNETMOD_INLINE=__netmod_inline_ucx__ -I/home/abuild/rpmbuild/BUILD/mpich-3.4.3/src/mpl/include -I/home/abuild/rpmbuild/BUILD/mpich-3.4.3/src/mpl/include -I/home/abuild/rpmbuild/BUILD/mpich-3.4.3/modules/yaksa/src/frontend/include -I/home/abuild/rpmbuild/BUILD/mpich-3.4.3/modules/yaksa/src/frontend/include -I/home/abuild/rpmbuild/BUILD/mpich-3.4.3/modules/json-c -I/home/abuild/rpmbuild/BUILD/mpich-3.4.3/modules/json-c -D_REENTRANT -I/home/abuild/rpmbuild/BUILD/mpich-3.4.3/src/mpi/romio/include' 'MPLLIBNAME=mpl'
+    Process Manager:                         pmi
+    Launchers available:                     ssh rsh fork slurm ll lsf sge manual persist
+    Topology libraries available:            hwloc
+    Resource management kernels available:   user slurm ll lsf sge pbs cobalt
+    Demux engines available:                 poll select
+NPROCS=2, N=2000000000, TIMES=40
+node1.dec.udc.es: I am process 0 of 2
+node1.dec.udc.es: I am process 1 of 2
+pi is approximately 3.1415926535896617, Error is 0.0000000000001315
+Time (seconds) = 40.1822440000
+
+
+-----------------------------------------
