@@ -8,7 +8,7 @@
 - name: localectl
   ansible.builtin.command: localectl set-locale LANG=en_US.UTF-8
 
-- name: Download Puppet 7
+- name: Download Puppet 8
   ansible.builtin.command: sudo dnf -y install https://yum.puppet.com/puppet7-release-el-8.noarch.rpm
 
 - name: Download TheForeman
@@ -309,12 +309,11 @@
     state: restarted
     enabled: yes
 
-- name: change Vagrant password
+- name: change root password
   ansible.builtin.user:
     name: root
     state: present
     password: "{{ vagrant_password | password_hash('sha512') }}"    
-
 
 #- name: Add montoxo to ansible hosts
 #  shell: 
