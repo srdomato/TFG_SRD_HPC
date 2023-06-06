@@ -119,4 +119,9 @@
 - name: Copy prometheus.yml
   ansible.builtin.copy:
     src: /vagrant/Provisioning/Prometheus/prometheus.yml
-    dest: /root/prometheus/config/
+    dest: /root/prometheus/config/prometheus.yml
+
+- name: Copy compose.yml
+  ansible.builtin.copy:
+    src: /vagrant/Provisioning/Prometheus/compose.yml
+    dest: /root/compose.yml
