@@ -1,0 +1,15 @@
+## prometheus.yml ##
+
+# global settings
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds
+  evaluation_interval: 15s # Evaluate rules every 15 seconds
+
+# A scrape configuration containing exactly one endpoint to scrape:
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'hpc-metrics'
+    metrics_path: '/metrics'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['compute-0-0:9100'] # Lista de nodos a monitorizar
