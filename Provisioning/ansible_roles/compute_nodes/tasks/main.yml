@@ -78,7 +78,11 @@
 - name: Enable Powertools.
   ansible.builtin.command: dnf config-manager --set-enabled powertools
 
-- name: Installing OHPC modules
+#- name: Adding Docker repo
+#  ansible.builtin.command: sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+
+- name: Installing OHPC and Docker modules
   dnf:
     name: "{{ packages }}"
     state: latest
@@ -94,3 +98,36 @@
       - hwloc-ohpc
       - lmod-ohpc
       - mpich-ucx-gnu12-ohpc
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin 
+      - docker-compose-plugin
+      - ansible
+
+- name: Restart Docker service 
+  ansible.builtin.service:
+    name: docker
+    state: restarted
+    enabled: yes
+
+# - name: Installing Prometheus in ansible
+#   ansible.builtin.command: sudo ansible-galaxy collection install prometheus.prometheus
+
+
+# - name: Create a Prometheus directory if it does not exist
+#   ansible.builtin.file:
+#     path: /root/prometheus/config/
+#     state: directory
+#     mode: '0755'
+
+
+# - name: Copy prometheus.yml
+#   ansible.builtin.copy:
+#     src: /vagrant/Provisioning/Prometheus/prometheus.yml
+#     dest: /root/prometheus/config/prometheus.yml
+
+# - name: Copy compose.yml
+#   ansible.builtin.copy:
+#     src: /vagrant/Provisioning/Prometheus/compose.yaml
+#     dest: /root/compose.yml

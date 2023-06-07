@@ -123,5 +123,5 @@
 
 - name: Copy compose.yml
   ansible.builtin.copy:
-    src: /vagrant/Provisioning/Prometheus/compose.yml
+    src: /vagrant/Provisioning/Prometheus/compose.yaml
     dest: /root/compose.yml

@@ -24,7 +24,10 @@ services:
       - monit_network
     depends_on:
       - prometheus
-    user: "0"  
+    environment:
+      GF_PATHS_CONFIG: /etc/grafana/grafana.ini
+      GF_PATHS_DATA: /var/lib/grafana
+    user: "472:472"  
 
 networks:
   monit_network:

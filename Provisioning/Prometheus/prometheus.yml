@@ -12,4 +12,4 @@ scrape_configs:
     metrics_path: '/metrics'
     scrape_interval: 5s
     static_configs:
-      - targets: ['compute-0-0:9100'] # Lista de nodos a monitorizar
+      - targets: ['localhost:9100','node1:9100', 'node2:9100'] # Lista de nodos a monitorizar
