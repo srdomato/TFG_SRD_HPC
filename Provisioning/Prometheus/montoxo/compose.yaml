@@ -19,7 +19,8 @@ services:
       - 3000:3000
     volumes:
       - /root/grafana/data:/var/lib/grafana
-      - /root/grafana/config:/etc/grafana
+      - /root/grafana/config/provisioning:/etc/grafana/provisioning
+      - /root/grafana/config/dashboards:/var/lib/grafana/dashboards
     networks:
       - monit_network
     depends_on:

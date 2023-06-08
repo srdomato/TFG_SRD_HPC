@@ -57,3 +57,9 @@
 #    state: present
 #    key: "{{ lookup('file', '/home/{{ item }}/.ssh/id_rsa.pub') }}"
 #  loop: "{{ users_name_list }}"     
+
+- name: Stop and disable firewalld.
+  service:
+    name: firewalld
+    state: stopped
+    enabled: False

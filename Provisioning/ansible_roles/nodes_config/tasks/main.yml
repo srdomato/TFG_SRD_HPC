@@ -26,3 +26,27 @@
 
 #- name: Run a script to add montoxo.dec.udc.es pubkey
 #  ansible.builtin.script: files/montoxo_pub_copy.sh
+
+- name: Enable Powertools.
+  ansible.builtin.command: dnf config-manager --set-enabled powertools
+
+
+- name: Installing Prometheus in ansible
+  ansible.builtin.command: sudo ansible-galaxy collection install prometheus.prometheus
+
+- name: Copy prometheus.yml
+  ansible.builtin.copy:
+    src: /vagrant/Provisioning/Prometheus/nodes/node_exporter.yml
+    dest: /root/node_exporter.yml
+
+
+- name: Instalar paquetes necesarios
+  package:
+    name: glibc-langpack-en
+    state: present
+
+- name: localectl
+  ansible.builtin.command: localectl set-locale LANG=en_US.UTF-8
+  
+- name: Execute node_exporter
+  ansible.builtin.command: ansible-playbook /root/node_exporter.yml

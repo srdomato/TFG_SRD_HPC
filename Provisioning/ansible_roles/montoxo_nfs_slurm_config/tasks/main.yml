@@ -105,10 +105,6 @@
     state: restarted
     enabled: yes
 
-- name: Installing Prometheus in ansible
-  ansible.builtin.command: sudo ansible-galaxy collection install prometheus.prometheus
-
-
 - name: Create a Prometheus directory if it does not exist
   ansible.builtin.file:
     path: /root/prometheus/config/
@@ -118,10 +114,10 @@
 
 - name: Copy prometheus.yml
   ansible.builtin.copy:
-    src: /vagrant/Provisioning/Prometheus/prometheus.yml
+    src: /vagrant/Provisioning/Prometheus/montoxo/prometheus.yml
     dest: /root/prometheus/config/prometheus.yml
 
 - name: Copy compose.yml
   ansible.builtin.copy:
-    src: /vagrant/Provisioning/Prometheus/compose.yaml
+    src: /vagrant/Provisioning/Prometheus/montoxo/compose.yaml
     dest: /root/compose.yml
