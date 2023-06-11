@@ -70,6 +70,8 @@
 - name: Adding Docker repo
   ansible.builtin.command: sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
+- name: Installing Prometheus in ansible
+  ansible.builtin.command: sudo ansible-galaxy collection install prometheus.prometheus
 
 - name: Installing OHPC and Docker modules
   dnf:
@@ -111,13 +113,22 @@
     state: directory
     mode: '0755'
 
-
-- name: Copy prometheus.yml
+- name: Copying prometheus.yml
   ansible.builtin.copy:
-    src: /vagrant/Provisioning/Prometheus/montoxo/prometheus.yml
+    src: /vagrant/Provisioning/Docker/montoxo/prometheus_config/prometheus.yml
     dest: /root/prometheus/config/prometheus.yml
 
-- name: Copy compose.yml
+- name: Copying node_rules.yml
   ansible.builtin.copy:
-    src: /vagrant/Provisioning/Prometheus/montoxo/compose.yaml
+    src: /vagrant/Provisioning/Docker/montoxo/prometheus_config/node_rules.yaml
+    dest: /root/prometheus/config/node_rules.yaml
+
+- name: Copying compose.yml
+  ansible.builtin.copy:
+    src: /vagrant/Provisioning/Docker/montoxo/compose.yaml
     dest: /root/compose.yml
+
+- name: Copying Grafana Config
+  copy:
+    src: /vagrant/Provisioning/Docker/montoxo/grafana_config
+    dest: /root/prometheus/config
