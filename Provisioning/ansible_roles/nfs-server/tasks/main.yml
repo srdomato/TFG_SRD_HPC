@@ -35,8 +35,8 @@
     permanent: yes
     state: enabled
 
-- name: Roloading Firewalld
-  ansible.builtin.command: sudo firewall-cmd --reload
+#- name: Roloading Firewalld
+#  ansible.builtin.command: sudo firewall-cmd --reload
 
 
 #- name: Copy /home/vagrant (montoxo) dir to NFS server

@@ -57,3 +57,12 @@
   ansible.builtin.dnf:
     name: ohpc-slurm-server
     state: latest
+
+- name: Installing Prometheus in ansible
+  ansible.builtin.command: sudo ansible-galaxy collection install prometheus.prometheus
+
+
+- name: Copying node_exporter role to /etc/ansible/roles
+  ansible.builtin.copy:
+    src: /root/.ansible/collections/ansible_collections/prometheus/prometheus/roles/node_exporter
+    dest: /etc/ansible/roles/

@@ -31,13 +31,13 @@
   ansible.builtin.command: dnf config-manager --set-enabled powertools
 
 
-- name: Installing Prometheus in ansible
-  ansible.builtin.command: sudo ansible-galaxy collection install prometheus.prometheus
+#- name: Installing Prometheus in ansible
+#  ansible.builtin.command: sudo ansible-galaxy collection install prometheus.prometheus
 
-- name: Copy prometheus.yml
-  ansible.builtin.copy:
-    src: /vagrant/Provisioning/Docker/nodes/node_exporter.yml
-    dest: /root/node_exporter.yml
+#- name: Copy node_exporter.yml
+#  ansible.builtin.copy:
+#    src: /vagrant/Provisioning/Docker/nodes/node_exporter.yml
+#    dest: /root/node_exporter.yml
 
 #- name: Ansible prometheus role
 #  ansible.builtin.galaxy:
@@ -58,5 +58,10 @@
 #  ansible.builtin.include_role:
 #    name: prometheus.prometheus.node_exporter
   
-- name: Execute node_exporter
-  ansible.builtin.command: ansible-playbook /root/node_exporter.yml
+#- name: Execute node_exporter
+#  ansible.builtin.command: ansible-playbook /root/node_exporter.yml
+
+#- name: Copy node_exporter.yml
+#  ansible.builtin.copy:
+#    src: /vagrant/Provisioning/Docker/nodes/node_exporter.yml
+#    dest: /root/node_exporter.yml
