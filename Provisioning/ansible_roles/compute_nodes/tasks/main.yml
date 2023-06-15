@@ -11,8 +11,14 @@
 - name: Enable NTP synchronization.
   ansible.builtin.command: timedatectl set-ntp true 
 
-- name: Install OpenHPC repo 
-  ansible.builtin.command: yum install -y http://repos.openhpc.community/OpenHPC/2/EL_8/x86_64/ohpc-release-2-1.el8.x86_64.rpm
+- name: Add OHPC repository
+  ansible.builtin.yum_repository:
+    name: epel
+    description: EPEL YUM repo
+    baseurl: http://repos.openhpc.community/OpenHPC/2/EL_8/x86_64/ohpc-release-2-1.el8.x86_64.rpm
+
+#- name: Install OpenHPC repo 
+#  ansible.builtin.command: yum install -y http://repos.openhpc.community/OpenHPC/2/EL_8/x86_64/ohpc-release-2-1.el8.x86_64.rpm
 
 - name: Start service Chronyd, if not started
   ansible.builtin.service:
@@ -79,11 +85,11 @@
   ansible.builtin.command: dnf config-manager --set-enabled powertools
 
 - name: Installing OHPC and Docker modules
-  dnf:
+  package:
     name: "{{ packages }}"
     state: latest
   vars:
-    packages:
+    package:
       - ohpc-autotools
       - gnu12-compilers-ohpc
       - gnu9-compilers-ohpc

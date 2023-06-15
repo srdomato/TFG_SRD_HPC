@@ -8,11 +8,23 @@
 - name: localectl
   ansible.builtin.command: localectl set-locale LANG=en_US.UTF-8
 
-- name: Download Puppet 8
-  ansible.builtin.command: sudo dnf -y install https://yum.puppet.com/puppet7-release-el-8.noarch.rpm
+- name: Add Puppet repository
+  ansible.builtin.yum_repository:
+    name: epel
+    description: EPEL YUM repo
+    baseurl: https://yum.puppet.com/puppet7-release-el-8.noarch.rpm
 
-- name: Download TheForeman
-  ansible.builtin.command: sudo dnf -y install https://yum.theforeman.org/releases/3.4/el8/x86_64/foreman-release.rpm
+- name: Add Foreman repository
+  ansible.builtin.yum_repository:
+    name: epel
+    description: EPEL YUM repo
+    baseurl: https://yum.theforeman.org/releases/3.4/el8/x86_64/foreman-release.rpm
+
+#- name: Download Puppet 7
+#  ansible.builtin.command: sudo dnf -y install https://yum.puppet.com/puppet7-release-el-8.noarch.rpm
+
+#- name: Download TheForeman
+#  ansible.builtin.command: sudo dnf -y install https://yum.theforeman.org/releases/3.4/el8/x86_64/foreman-release.rpm
 
 #- name: Download katello
 #  ansible.builtin.command: dnf -y install https://yum.theforeman.org/katello/4.7/katello/el8/x86_64/katello-repos-latest.rpm
@@ -44,8 +56,8 @@
 - name: Update Rocky 
   ansible.builtin.command: sudo dnf update -y
 
-- name: Installing List of Packages By DNF 
-  dnf:
+- name: Installing List of Packages
+  packages:
     name: "{{ packages }}"
     state: latest
   vars:
@@ -83,8 +95,13 @@
 #- name: Set Hostname
 #  ansible.builtin.command: sudo hostnamectl set-hostname foreman.server.local
 
-- name: Hard Link Between Rocky and RedHat EFI
-  ansible.builtin.command: sudo ln -s /boot/efi/EFI/rocky/ /boot/efi/EFI/redhat
+- name: Symbolic Link Between Rocky and RedHat EFI
+  ansible.builtin.file:
+    src: /boot/efi/EFI/redhat
+    dest: /boot/efi/EFI/rocky
+    owner: root
+    group: root
+    state: link
 
 - name: Enabling Chrony 
   ansible.builtin.command: sudo systemctl enable --now chronyd

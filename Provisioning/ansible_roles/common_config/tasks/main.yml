@@ -28,11 +28,11 @@
   register: accounts    
 
 - name: Installing List of Packages By DNF 
-  dnf:
+  packages:
     name: "{{ packages }}"
     state: latest
   vars:
-    packages: 
+    package: 
       - httpd
       - tree
       - nano
