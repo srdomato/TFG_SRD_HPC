@@ -19,7 +19,7 @@
     state: present
 
 - name: Create Vagrant User
-  user:
+  ansible.builtin.user:
    name: "{{ vagrant_user }}"
    group: "{{ group_name }}"
    append: true
@@ -28,7 +28,7 @@
   register: accounts    
 
 - name: Installing List of Packages By DNF 
-  packages:
+  ansible.builtin.packages:
     name: "{{ packages }}"
     state: latest
   vars:
