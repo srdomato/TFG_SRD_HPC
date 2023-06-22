@@ -41,27 +41,27 @@
     state: restarted
     enabled: yes
  
-- name: Remove from Public Zone eth1
-  ansible.builtin.command: firewall-cmd --permanent --zone=public --remove-interface=eth1
-
 #- name: Remove from Public Zone eth1
-#  ansible.posix.firewalld:
-#    zone: public
-#    interface: eth1
-#    permanent: true
-#    immediate: true
-#    state: disabled
+#  ansible.builtin.command: firewall-cmd --permanent --zone=public --remove-interface=eth1
 
-- name: Add eth1 to trusted Zone
-  ansible.builtin.command: firewall-cmd --zone=trusted --change-interface=eth1 --permanent
+- name: Remove from Public Zone eth1
+  ansible.posix.firewalld:
+    zone: public
+    interface: eth1
+    permanent: true
+    immediate: true
+    state: disabled
 
 #- name: Add eth1 to trusted Zone
-#  ansible.posix.firewalld:
-#    zone: trusted
-#    interface: eth1
-#    permanent: true
-#    immediate: true
-#    state: enabled
+#  ansible.builtin.command: firewall-cmd --zone=trusted --change-interface=eth1 --permanent
+
+- name: Add eth1 to trusted Zone
+  ansible.posix.firewalld:
+    zone: trusted
+    interface: eth1
+    permanent: true
+    immediate: true
+    state: enabled
 
 - name: Roloading Firewalld
   ansible.builtin.command: sudo firewall-cmd --reload    
